@@ -1,0 +1,11 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "serviceworker": true
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-restricted-globals": ["error", "event"] 
+  }
+}
