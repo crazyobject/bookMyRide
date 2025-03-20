@@ -6,7 +6,7 @@ import LocationInput from "./LocationInput"; // Import your custom LocationInput
 import "./OfferRideForm.css"; // Add your custom styling here
 import LoadingOverlay from "./LoadingOverlay";
 import { toast } from "react-toastify";
-import { sendNotificationOnRideCreation } from "../services/fcmService";
+//import { sendNotificationOnRideCreation } from "../services/fcmService";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 
@@ -71,7 +71,7 @@ const OfferRideForm = ({
   const [recentRides, setRecentRides] = useState([]);
   const [loading, setLoading] = useState(false); // State to control loading overlay
   const [formSubmitted, setFormSubmitted] = useState(false); // State to track form submission
-  const [formData, setFormData] = useState(initialState);
+  // const [formData, setFormData] = useState(initialState);
   const [rideMode, setRideMode] = useState(mode);
 
   const SHOW_RECENT_RIDES = true; // hide recent rides selection
@@ -140,9 +140,9 @@ const OfferRideForm = ({
           lon: editData.route?.end?.coordinates[1],
         } || ""
       );
-    } else {
+    } /* else {
       setFormData(initialState);
-    }
+    } */
   }, [editData]);
 
   const LOCAL_STORAGE_KEY = "recentRides";
