@@ -13,5 +13,9 @@
     "browser": true,
     "node": true,
     "es6": true
+  },
+  "rules":{
+    "no-unused-vars":"warn",
+    "no-empty": "warn"
   }
 }
