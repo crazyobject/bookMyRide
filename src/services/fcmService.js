@@ -1,6 +1,6 @@
 // src/services/fcmService.js
 import { db, messaging, auth } from "../firebase";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getToken } from "firebase/messaging";
 import {
   doc,
   setDoc,
@@ -28,7 +28,6 @@ export const sendNotificationOnRideCreation = async (rideData) => {
 
     if (!response.ok) {
       throw new Error("Failed to send notification");
-      return false;
     }
     console.log("Notifications triggered successfully!");
     return true;
