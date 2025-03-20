@@ -34,7 +34,9 @@
   "eslint-config-prettier": "^9.0.0",
   "eslint-plugin-prettier": "^5.0.0",
   "@babel/eslint-parser": "^7.24.0",
-  "eslint-plugin-react": "^7.33.2"
+  "eslint-plugin-react": "^7.33.2",
+  "@babel/preset-env": "^7.24.0",
+  "@babel/preset-react": "^7.24.0"
  },
   "scripts": {
     "start": "react-scripts start",
