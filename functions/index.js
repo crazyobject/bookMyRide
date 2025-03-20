@@ -1,3 +1,4 @@
+/*
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const L = require("leaflet"); // Add Leaflet for coordinate-based matching
@@ -74,3 +75,4 @@ exports.sendNotificationOnRideCreation = functions.firestore
       console.error("Error sending notifications:", error);
     }
   });
+*/
