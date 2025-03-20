@@ -1,6 +1,6 @@
 // src/services/fcmService.js
 import { db, messaging, auth } from "../firebase";
-import { getToken, onMessage } from "firebase/messaging";
+import { getToken } from "firebase/messaging";
 import {
   doc,
   setDoc,
