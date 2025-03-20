@@ -1,0 +1,74 @@
+/* General styling for the form group */
+.form-group {
+  position: relative; /* Ensure dropdowns position correctly */
+}
+
+/* Input field styling */
+.form-control {
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding for input */
+  font-size: 1rem; /* Font size */
+  transition: border-color 0.3s ease; /* Transition effect on border color */
+}
+
+/* Input field focus effect */
+.form-control:focus {
+  border-color: #0056b3; /* Darker blue on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Autocomplete dropdown styling */
+.autocomplete-dropdown {
+  position: absolute; /* Position it below the input */
+  top: 100%; /* Align with the bottom of the input */
+  left: 0; /* Align with the left of the input */
+  right: 0; /* Align with the right of the input */
+  background-color: white; /* White background */
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  z-index: 10; /* Make sure it appears above other elements */
+  max-height: 200px; /* Max height for dropdown */
+  overflow-y: auto; /* Scroll if items exceed max height */
+}
+
+
+.location-inputs {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1001;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Individual suggestion item styling */
+.suggestion-item {
+  padding: 7px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+    font-size: 15px;
+}
+
+/* Hover effect for suggestion items */
+.suggestion-item:hover {
+  background-color: #007bff; /* Highlight with blue on hover */
+  color: white; /* White text on hover */
+}
+
+/* Styling for empty state when no suggestions */
+.autocomplete-dropdown:empty {
+  display: none; /* Hide dropdown if there are no suggestions */
+}

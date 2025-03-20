@@ -1,0 +1,39 @@
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000000;
+}
+
+.spinner-container {
+  text-align: center;
+}
+
+.loading-spinner .icon-container {
+  display: inline-block;
+  animation: moveCar 3s linear infinite;
+}
+
+@keyframes moveCar {
+  0% {
+    transform: translateX(-200%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.loading-spinner p {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #fff;
+}

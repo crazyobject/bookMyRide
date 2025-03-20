@@ -1,0 +1,98 @@
+/* General styling for icon container */
+.icon-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.icon-container button {
+  font-size: 14px !important;
+  padding: 1px 17px 1px 17px !important;
+}
+
+/* Scrollbar styles */
+.rides-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.rides-container::-webkit-scrollbar,
+.rides-container::-ms-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.rides-container::-webkit-scrollbar-thumb,
+.rides-container::-ms-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.rides-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Ride card styling */
+.ride-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+  overflow: hidden; 
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 340px;
+  max-width: 400px;
+}
+
+.ride-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-color: #74AA9C;
+}
+
+.ride-card h5 {
+  font-size: 14px;
+  margin: 0;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 2px solid #74AA9C;
+  background-color: #eee;
+  text-transform: capitalize;
+  width: 100%;
+  padding: 2px;
+}
+
+.ride-card h5 span {
+  font-size: 12px;
+}
+
+.ride-card p {
+  margin: 2px 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.ride-card button {
+  margin-top: auto;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  padding: 3px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ride-card button:hover {
+  background-color: #0056b3;
+}
