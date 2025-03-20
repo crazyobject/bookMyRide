@@ -4,6 +4,9 @@
     "es6": true,
     "serviceworker": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "extends": ["eslint:recommended"],
   "rules": {
     "no-restricted-globals": ["error", "event"] 
