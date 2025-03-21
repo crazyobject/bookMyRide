@@ -46,8 +46,10 @@
   border: 2px solid #ddd;
   border-radius: 5px;
   padding: 8px;
-  overflow: hidden; 
-  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   min-width: 340px;
   max-width: 400px;
 }
@@ -55,7 +57,7 @@
 .ride-card:hover {
   transform: scale(1.04);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  border-color: #74AA9C;
+  border-color: #74aa9c;
 }
 
 .ride-card h5 {
@@ -64,7 +66,7 @@
   color: #333;
   font-weight: bold;
   text-align: left;
-  border-bottom: 2px solid #74AA9C;
+  border-bottom: 2px solid #74aa9c;
   background-color: #eee;
   text-transform: capitalize;
   width: 100%;

@@ -50,7 +50,7 @@ const OfferRideForm = ({
   const [firstName, setFirstName] = useState(user?.displayName?.split(" ")[0]);
   const [lastName, setLastName] = useState(user?.displayName?.split(" ")[1]);
   const [contactNumber, setContactNumber] = useState(
-    user?.providerData?.phoneNumber
+    user?.providerData?.phoneNumber,
   );
   const [photoUrl, setPhotoUrl] = useState(user?.photoURL);
   const [email, setEmail] = useState(user?.email);
@@ -62,7 +62,7 @@ const OfferRideForm = ({
     currentTime
       .replace(new RegExp(["AM", "PM"].join("|"), "g"), "")
       .replace(/\s{2,}/g, " ")
-      .trim()
+      .trim(),
   );
   const [carModel, setCarModel] = useState("");
   const [carNumber, setCarNumber] = useState("");
@@ -114,7 +114,7 @@ const OfferRideForm = ({
         currentTime
           .replace(new RegExp(["AM", "PM"].join("|"), "g"), "")
           .replace(/\s{2,}/g, " ")
-          .trim()
+          .trim(),
       );
       setFirstName(editData.rider.fName || "");
       setLastName(editData.rider.lName || "");
@@ -131,14 +131,14 @@ const OfferRideForm = ({
           display_name: editData.route?.start?.address,
           lat: editData.route?.start?.coordinates[0],
           lon: editData.route?.start?.coordinates[1],
-        } || ""
+        } || "",
       );
       setToLocation(
         {
           display_name: editData.route?.end?.address,
           lat: editData.route?.end?.coordinates[0],
           lon: editData.route?.end?.coordinates[1],
-        } || ""
+        } || "",
       );
     } /* else {
       setFormData(initialState);

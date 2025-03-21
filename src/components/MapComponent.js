@@ -113,7 +113,7 @@ const MapComponent = ({ user }) => {
       // Calculate the timestamp for 8 hours from now
       const eightHoursLater = new Timestamp(
         currentTimestamp.seconds + 48 * 3600,
-        currentTimestamp.nanoseconds
+        currentTimestamp.nanoseconds,
       );
 
       try {
@@ -123,8 +123,8 @@ const MapComponent = ({ user }) => {
             where("startDate", ">", oneHourAgoTimestamp),
             where("startDate", "<=", eightHoursLater),
             where("rider.email", "!=", user.email),
-            where("type", "==", type)
-          )
+            where("type", "==", type),
+          ),
         );
         const ridesList = ridesSnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -169,7 +169,7 @@ const MapComponent = ({ user }) => {
                 closeOnClick: true,
                 draggable: false,
                 closeButton: true,
-              }
+              },
             );
             setTimeout(() => {
               animateButton(type + "Button");

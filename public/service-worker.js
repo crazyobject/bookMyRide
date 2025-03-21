@@ -16,7 +16,7 @@ self.addEventListener("install", (event) => {
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache");
       return cache.addAll(FILES_TO_CACHE);
-    })
+    }),
   );
   // Force the new service worker to activate immediately
   self.skipWaiting();
@@ -33,9 +33,9 @@ self.addEventListener("activate", (event) => {
             console.log("Deleting old cache:", cacheName);
             return caches.delete(cacheName);
           }
-        })
+        }),
       );
-    })
+    }),
   );
   return self.clients.claim(); // Take control of any open pages
 });
@@ -47,14 +47,14 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request).catch(() => {
         return caches.match(event.request);
-      })
+      }),
     );
   } else {
     // Handle other requests (CSS, JS, icons) with a cache-first strategy
     event.respondWith(
       caches.match(event.request).then((response) => {
         return response || fetch(event.request);
-      })
+      }),
     );
   }
 });

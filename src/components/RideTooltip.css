@@ -1,81 +1,82 @@
 /* RideTooltip.css */
-  /* Larger version of the tooltip for extra readability */
-  .leaflet-tooltip-large {
-    font-size: 15px;
-    padding: 10px 16px;
-    border-radius: 10px; /* Softer radius */
-    max-width: 350px;
-  }
-  
+/* Larger version of the tooltip for extra readability */
+.leaflet-tooltip-large {
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 10px; /* Softer radius */
+  max-width: 350px;
+}
 
 /* Base Tooltip Styling */
 .leaflet-tooltip {
-    background-color: rgba(0, 0, 0, 0.80); /* Slight transparency */
-    color: #f5f5f5; /* Softer white for text */
-    font-size: 14px;
-    padding: 10px; /* Increase padding for more content */
-    border-radius: 8px; /* Softer corners */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-align: left; /* Align text to the left */
-  }
-  
-  /* Custom border for visual appeal */
-  .leaflet-tooltip {
-    border: 1px solid #0F9D58; /* Coral border color */
-  }
-  
-  /* Tooltip arrow styling */
-  .leaflet-tooltip:before {
-    border-top-color: rgba(0, 0, 0, 0.75); /* Arrow color matching the tooltip */
-  }
-  
-  /* Container for the tooltip */
-  .tooltip-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Group for important parameters */
-  .important-params {
-    margin-bottom: 8px; /* Space between important and additional info */
-    border-bottom: 1px solid #ddd; /* Divider line */
-    padding-bottom: 8px; /* Padding for better spacing */
-    width: 100%;
-  }
-  
-  /* Tooltip text customization */
-  .tooltip-text {
-    font-weight: 600;
-    font-size: 15px;
-    color: #ffd700; /* Gold color for the rider name */
-  }
-  
-  /* Tooltip detail customization */
-  .tooltip-detail {
-    font-size: 13px;
-    color: #ddd; /* Lighter gray for the details */
-    margin-top: 4px;
-    word-wrap: break-word; /* Break words that are too long */
+  background-color: rgba(0, 0, 0, 0.8); /* Slight transparency */
+  color: #f5f5f5; /* Softer white for text */
+  font-size: 14px;
+  padding: 10px; /* Increase padding for more content */
+  border-radius: 8px; /* Softer corners */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  text-align: left; /* Align text to the left */
+}
+
+/* Custom border for visual appeal */
+.leaflet-tooltip {
+  border: 1px solid #0f9d58; /* Coral border color */
+}
+
+/* Tooltip arrow styling */
+.leaflet-tooltip:before {
+  border-top-color: rgba(0, 0, 0, 0.75); /* Arrow color matching the tooltip */
+}
+
+/* Container for the tooltip */
+.tooltip-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Group for important parameters */
+.important-params {
+  margin-bottom: 8px; /* Space between important and additional info */
+  border-bottom: 1px solid #ddd; /* Divider line */
+  padding-bottom: 8px; /* Padding for better spacing */
+  width: 100%;
+}
+
+/* Tooltip text customization */
+.tooltip-text {
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffd700; /* Gold color for the rider name */
+}
+
+/* Tooltip detail customization */
+.tooltip-detail {
+  font-size: 13px;
+  color: #ddd; /* Lighter gray for the details */
+  margin-top: 4px;
+  word-wrap: break-word; /* Break words that are too long */
   word-break: break-all; /* Break long words */
   white-space: normal; /* Allow the text to wrap and take up multiple lines */
   overflow-wrap: break-word; /* Ensures word breaks inside the div */
-  }
-  
-  /* Field title styling */
-  .field-title {
-    font-weight: bold; /* Make titles bold */
-    color: #0F9D58; /* Coral color for field titles */
-  }
-  
-  /* Additional info styling */
-  .additional-info {
-    margin-top: 8px; /* Space above additional info */
-  }
-  
-  /* Hover effect to change background and border colors */
-  .leaflet-tooltip:hover {
-    background-color: rgba(50, 50, 50, 0.85);
-    color: #ffffff;
-    border: 1px solid #ffa500; /* Change to a brighter orange on hover */
-  }
+}
+
+/* Field title styling */
+.field-title {
+  font-weight: bold; /* Make titles bold */
+  color: #0f9d58; /* Coral color for field titles */
+}
+
+/* Additional info styling */
+.additional-info {
+  margin-top: 8px; /* Space above additional info */
+}
+
+/* Hover effect to change background and border colors */
+.leaflet-tooltip:hover {
+  background-color: rgba(50, 50, 50, 0.85);
+  color: #ffffff;
+  border: 1px solid #ffa500; /* Change to a brighter orange on hover */
+}

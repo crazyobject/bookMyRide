@@ -34,7 +34,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 /* Styling for the modal buttons */
@@ -55,4 +55,3 @@ button {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-
