@@ -20,12 +20,12 @@ const MatchingRides = ({
   const handleShowMore = (ride) => {
     setSelectedRides((prevSelectedRides) => {
       const isSelected = prevSelectedRides.find(
-        (selectedRide) => selectedRide.id === ride.id
+        (selectedRide) => selectedRide.id === ride.id,
       );
 
       if (isSelected) {
         return prevSelectedRides.filter(
-          (selectedRide) => selectedRide.id !== ride.id
+          (selectedRide) => selectedRide.id !== ride.id,
         );
       } else {
         return [...prevSelectedRides, ride];
@@ -36,7 +36,7 @@ const MatchingRides = ({
   // Method to generate the inquiry message
   const getInquiryMessage = (ride) => {
     return encodeURIComponent(
-      `Hello ${ride.rider.fName} ${ride.rider.lName}, I'm interested in booking your ride. Could you please share more details?`
+      `Hello ${ride.rider.fName} ${ride.rider.lName}, I'm interested in booking your ride. Could you please share more details?`,
     );
   };
 
@@ -45,7 +45,7 @@ const MatchingRides = ({
     const inquiryMessage = getInquiryMessage(ride);
     window.open(
       `https://wa.me/${ride.rider.contact}?text=${inquiryMessage}`,
-      "_blank"
+      "_blank",
     ); // Opens WhatsApp chat
   };
 

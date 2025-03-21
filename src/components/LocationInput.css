@@ -32,7 +32,6 @@
   overflow-y: auto; /* Scroll if items exceed max height */
 }
 
-
 .location-inputs {
   position: absolute;
   top: 20px;
@@ -56,10 +55,10 @@
 /* Individual suggestion item styling */
 .suggestion-item {
   padding: 7px 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    text-align: left;
-    font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+  font-size: 15px;
 }
 
 /* Hover effect for suggestion items */

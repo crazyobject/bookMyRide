@@ -23,7 +23,7 @@ export const sendNotificationOnRideCreation = async (rideData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(rideData), // Send the new ride data to your backend
-      }
+      },
     );
 
     if (!response.ok) {
@@ -45,11 +45,11 @@ export const sendPushNotification = async (newRide) => {
     // Define coordinates of the new ride
     const pickupCoords = L.latLng(
       route.start.coordinates[0],
-      route.start.coordinates[1]
+      route.start.coordinates[1],
     );
     const dropCoords = L.latLng(
       route.end.coordinates[0],
-      route.end.coordinates[1]
+      route.end.coordinates[1],
     );
 
     // Get rides that match the reverse type and search logic
@@ -59,8 +59,8 @@ export const sendPushNotification = async (newRide) => {
         //where("startDate", ">", newRide.startDate - 3600000), // One hour ago
         //where("startDate", "<=", newRide.startDate + 28800000), // Eight hours later
         where("type", "==", reverseType), // Opposite type
-        where("rider.email", "!=", rider.email) // Exclude the same user
-      )
+        where("rider.email", "!=", rider.email), // Exclude the same user
+      ),
     );
 
     const ridesList = ridesSnapshot.docs.map((doc) => ({

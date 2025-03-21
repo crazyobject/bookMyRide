@@ -46,7 +46,8 @@ const RideTooltip = ({ ride }) => (
         )}
         {ride.car.amount && (
           <div className="tooltip-detail">
-            <span className="field-title">Fare/Tarrif:</span> {ride.car.amount}{" "}
+            <span className="field-title">Fare/Tarrif:</span>{" "}
+            {ride.car.amount}{" "}
           </div>
         )}
         {ride.rider.riderID && (

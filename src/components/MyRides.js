@@ -36,7 +36,7 @@ const MyRides = ({ user, setModalShow, showOfferRideForm }) => {
           ridesCollection,
           where("type", "==", "offer"),
           where("rider.email", "==", user.email),
-          orderBy("startDate", "desc")
+          orderBy("startDate", "desc"),
         );
         const offerSnapshot = await getDocs(offerQuery);
         const offers = offerSnapshot.docs.map((doc) => ({
@@ -50,7 +50,7 @@ const MyRides = ({ user, setModalShow, showOfferRideForm }) => {
           ridesCollection,
           where("type", "==", "request"),
           where("rider.email", "==", user.email),
-          orderBy("startDate", "desc")
+          orderBy("startDate", "desc"),
         );
         const requestSnapshot = await getDocs(requestQuery);
         const requests = requestSnapshot.docs.map((doc) => ({
@@ -73,12 +73,12 @@ const MyRides = ({ user, setModalShow, showOfferRideForm }) => {
     const currentTimestamp = Timestamp.now();
     const oneHourAgo = new Timestamp(
       currentTimestamp.seconds - 3600,
-      currentTimestamp.nanoseconds
+      currentTimestamp.nanoseconds,
     );
     const nHours = 48; // ride time within 48 hours from current time
     const nHoursLater = new Timestamp(
       currentTimestamp.seconds + nHours * 3600,
-      currentTimestamp.nanoseconds
+      currentTimestamp.nanoseconds,
     );
 
     return startDate > oneHourAgo && startDate <= nHoursLater;
@@ -93,11 +93,11 @@ const MyRides = ({ user, setModalShow, showOfferRideForm }) => {
         await deleteDoc(rideDocRef);
         if (rideDetails.type === "offer") {
           setOfferedRides((prevRides) =>
-            prevRides.filter((ride) => ride.id !== rideDetails.id)
+            prevRides.filter((ride) => ride.id !== rideDetails.id),
           );
         } else if (rideDetails.type === "request") {
           setRequestedRides((prevRides) =>
-            prevRides.filter((ride) => ride.id !== rideDetails.id)
+            prevRides.filter((ride) => ride.id !== rideDetails.id),
           );
         }
         setTimeout(() => {

@@ -93,7 +93,7 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
               onClick={() =>
                 handleOptionClick(
                   <UserProfileDetails user={user} />,
-                  "My Profile"
+                  "My Profile",
                 )
               }
             >
@@ -112,7 +112,7 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
                     user={user}
                     showOfferRideForm={showOfferRideForm}
                   />,
-                  "My Rides"
+                  "My Rides",
                 )
               }
             >

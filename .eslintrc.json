@@ -14,8 +14,8 @@
     "node": true,
     "es6": true
   },
-  "rules":{
-    "no-unused-vars":"warn",
+  "rules": {
+    "no-unused-vars": "warn",
     "no-empty": "warn"
   }
 }

@@ -11,7 +11,7 @@ export const SignUpForm = ({ googleHandler, facebookHandler }) => {
 
     // Detect if the user is on a mobile device
     const isUserMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(
-      navigator.userAgent
+      navigator.userAgent,
     );
     setIsMobile(isUserMobile);
 
@@ -27,29 +27,34 @@ export const SignUpForm = ({ googleHandler, facebookHandler }) => {
     checkStandaloneMode();
 
     const handleInstallPrompt = (e) => {
-      e.preventDefault(); // Prevent the default mini-infobar prompt
-      deferredPrompt = e; // Save the event so it can be triggered later
-
+      e.preventDefault();  
+      deferredPrompt = e;  
+    
       const installButton = document.getElementById("install-button");
-      installButton.style.display = "block"; // Show the install button
-
-      installButton.addEventListener("click", () => {
-        installButton.style.display = "none"; // Hide the install button
-        deferredPrompt.prompt(); // Show the install prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === "accepted") {
-            console.log("User accepted the PWA prompt");
-            toast.success(
-              "App installed successfully! You can open the app now."
-            ); // Show success message
-          } else {
-            console.log("User dismissed the PWA prompt");
-            toast.info("App installation canceled."); // Show cancel message
-          }
-          deferredPrompt = null; // Clear the prompt
+    
+       
+      if (installButton) {
+        installButton.style.display = "block";  
+    
+        installButton.addEventListener("click", () => {
+          installButton.style.display = "none";  
+          deferredPrompt.prompt();  
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("User accepted the PWA prompt");
+              toast.success("App installed successfully! You can open the app now.");  
+            } else {
+              console.log("User dismissed the PWA prompt");
+              toast.info("App installation canceled.");  
+            }
+            deferredPrompt = null;  
+          });
         });
-      });
+      } else {
+        console.error("Install button not found.");
+      }
     };
+    
 
     window.addEventListener("beforeinstallprompt", handleInstallPrompt);
 
