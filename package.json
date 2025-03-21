@@ -7,8 +7,6 @@
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
     "firebase": "^11.0.2",
@@ -29,14 +27,19 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.24.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "eslint": "^8.50.0",
-    "prettier": "^3.0.3",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "@babel/eslint-parser": "^7.24.0",
     "eslint-plugin-react": "^7.33.2",
-    "@babel/preset-env": "^7.24.0",
-    "@babel/preset-react": "^7.24.0"
+    "husky": "^9.1.7",
+    "jest": "^27.5.1",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

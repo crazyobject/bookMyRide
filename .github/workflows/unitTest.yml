@@ -1,0 +1,31 @@
+name: Unit test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Unit tests suit
+        run: npm test -- --testPathPattern="unit-tests"
+
+      - name: Run Tests with Coverage
+        run: npm test -- --coverage
