@@ -10,4 +10,3 @@ test("renders date and time correctly", () => {
   const dateTimeElement = screen.getByText(/Apr 06, 2021 01:20 PM/i);
   expect(dateTimeElement).toBeInTheDocument();
 });
-ent();
