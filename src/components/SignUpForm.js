@@ -27,34 +27,34 @@ export const SignUpForm = ({ googleHandler, facebookHandler }) => {
     checkStandaloneMode();
 
     const handleInstallPrompt = (e) => {
-      e.preventDefault();  
-      deferredPrompt = e;  
-    
+      e.preventDefault();
+      deferredPrompt = e;
+
       const installButton = document.getElementById("install-button");
-    
-       
+
       if (installButton) {
-        installButton.style.display = "block";  
-    
+        installButton.style.display = "block";
+
         installButton.addEventListener("click", () => {
-          installButton.style.display = "none";  
-          deferredPrompt.prompt();  
+          installButton.style.display = "none";
+          deferredPrompt.prompt();
           deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === "accepted") {
               console.log("User accepted the PWA prompt");
-              toast.success("App installed successfully! You can open the app now.");  
+              toast.success(
+                "App installed successfully! You can open the app now.",
+              );
             } else {
               console.log("User dismissed the PWA prompt");
-              toast.info("App installation canceled.");  
+              toast.info("App installation canceled.");
             }
-            deferredPrompt = null;  
+            deferredPrompt = null;
           });
         });
       } else {
         console.error("Install button not found.");
       }
     };
-    
 
     window.addEventListener("beforeinstallprompt", handleInstallPrompt);
 
