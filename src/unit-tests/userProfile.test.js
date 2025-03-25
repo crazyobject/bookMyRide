@@ -5,7 +5,9 @@ import { Modal } from "react-bootstrap";
 import "@testing-library/jest-dom"; // For the 'toBeInTheDocument' matcher
 
 // Mock components
-jest.mock("../components/UserProfileDetails", () => () => <div>Profile Details</div>);
+jest.mock("../components/UserProfileDetails", () => () => (
+  <div>Profile Details</div>
+));
 jest.mock("../components/MyRides", () => () => <div>My Rides</div>);
 
 describe("UserProfile Component", () => {
@@ -23,7 +25,7 @@ describe("UserProfile Component", () => {
         user={mockUser}
         onLogout={mockLogout}
         showOfferRideForm={mockShowOfferRideForm}
-      />
+      />,
     );
   });
 
@@ -33,7 +35,7 @@ describe("UserProfile Component", () => {
         user={{ displayName: "John Doe" }}
         onLogout={mockLogout}
         showOfferRideForm={mockShowOfferRideForm}
-      />
+      />,
     );
     const avatar = getByText("JD");
     expect(avatar).toBeInTheDocument();
@@ -74,7 +76,7 @@ describe("UserProfile Component", () => {
     const modal = screen.getByRole("dialog");
     expect(modal).toBeInTheDocument();
     const modalTextElement = screen.getAllByText("My Rides");
-    expect(modalTextElement.length).toBeGreaterThan(0); 
+    expect(modalTextElement.length).toBeGreaterThan(0);
   });
 
   test("should call onLogout when 'Logout' is clicked in dropdown", () => {
