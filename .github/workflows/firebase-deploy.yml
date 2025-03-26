@@ -14,7 +14,7 @@ jobs:
 
   build-and-deploy:
     runs-on: ubuntu-latest
-    needs: [Lint, SonarCloud, UnitTest]
+    needs: [lint, sonarcloud, test]
     if: success()
 
     steps:
