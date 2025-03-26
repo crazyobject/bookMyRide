@@ -1,21 +1,15 @@
 name: Deploy
+
 on:
   push:
     branches:
-      - main  # Runs only on direct push or merged PR into main
+      - main  
 
 jobs:
-  # Dummy job to prevent "no independent job" error
-  setup-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup check
-        run: echo "Setup check complete."
-
   build-and-deploy:
     runs-on: ubuntu-latest
-    needs: [lint, sonarcloud, test]
-    if: success()
+    needs: [lint, sonarcloud, test] 
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
