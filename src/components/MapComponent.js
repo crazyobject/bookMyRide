@@ -357,7 +357,7 @@ const MapComponent = ({ user }) => {
                         href="#"
                         class="btn btn-warning btn-sm"
                         onClick={() => handleShowModalForNewRide(null)}
-                        data-tippy-content="Looking for passenger?"
+                        data-tippy-content="Looking for a passenger?"
                         data-tippy-placement="top"
                         id="requestButton"
                       >
