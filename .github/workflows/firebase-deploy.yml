@@ -2,12 +2,12 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["UnitTest"]  
+    workflows: ["UnitTest"]
     types: [completed]
-    branches: [main]  
+    branches: [main]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     if: |
       github.event.workflow_run.conclusion == 'success' &&
@@ -17,16 +17,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Important for deployments
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Install missing Babel plugin
+        run: npm install @babel/plugin-proposal-private-property-in-object --save-dev
+
+      - name: Update browserslist
+        run: npx update-browserslist-db@latest
+
+      - name: Run ESLint fixes
+        run: npm run fix-lint
+
+      - name: Verify linting
+        run: npm run lint
+        env:
+          CI: true  # Makes warnings fail the build
 
       - name: Build project
         run: npm run build
@@ -39,3 +53,8 @@ jobs:
           channelId: live
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+
+      - name: Post-deploy cleanup
+        if: always()
+        run: |
+          echo "Deployment completed with status ${{ job.status }}"
