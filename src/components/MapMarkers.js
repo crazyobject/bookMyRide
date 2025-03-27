@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, Polyline, Tooltip } from "react-leaflet";
+import { Marker, Polyline } from "react-leaflet";
 import { getRandomColor } from "../utils/colorUtils";
 import RideTooltip from "./RideTooltip";
 
