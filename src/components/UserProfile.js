@@ -123,7 +123,11 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
               </a>
             </li>
             <li className="dropdown-item">
-              <a href="javascript:void(0);" onClick={onLogout} style={{ cursor: "pointer" }}>
+              <a
+                href="javascript:void(0);"
+                onClick={onLogout}
+                style={{ cursor: "pointer" }}
+              >
                 <FontAwesomeIcon icon={faSignOutAlt} className="text-danger" />
                 <div style={{ fontSize: "8px" }}>Logout</div>{" "}
                 {/* Logout Icon */}

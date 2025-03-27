@@ -143,7 +143,7 @@ const OfferRideForm = ({
     } /* else {
       setFormData(initialState);
     } */
-  }, [editData,isEditMode]);
+  }, [editData, isEditMode]);
 
   const LOCAL_STORAGE_KEY = "recentRides";
 
@@ -269,7 +269,7 @@ const OfferRideForm = ({
     const ridesFromLocalStorage =
       JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
     setRecentRides(ridesFromLocalStorage);
-  }, [user, show,isEditMode]);
+  }, [user, show, isEditMode]);
 
   return (
     <>
