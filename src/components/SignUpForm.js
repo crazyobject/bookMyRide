@@ -116,8 +116,8 @@ export const SignUpForm = ({ googleHandler, facebookHandler }) => {
         Install App
       </button>
       <p class="disclaimer">
-        By continuing, you agree to BookMyRide's <a href="#">Terms of Use</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By continuing, you agree to BookMyRide's <a href="javascript:void(0);">Terms of Use</a>{" "}
+        and <a href="javascript:void(0);">Privacy Policy</a>.
       </p>
     </div>
   );
