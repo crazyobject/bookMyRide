@@ -81,7 +81,7 @@ const RideTooltip = ({ ride }) => (
       <div>
         {ride.rider.photoURL && (
           <img
-            alt="Rider Photo"
+            alt={ride.rider.riderID}
             src={ride.rider.photoURL}
             width="53"
             style={{
