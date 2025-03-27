@@ -341,33 +341,30 @@ const MapComponent = ({ user }) => {
                       </p>
                     </div>
                     <div>
-                      <a
-                        href="#"
+                      <button
                         className="btn btn-success btn-sm"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleShowModalForNewRideRequest();
-                        }}
+                        onClick={handleShowModalForNewRideRequest}
                         data-tippy-content="Looking for a car/bike?"
                         data-tippy-placement="top"
                         id="offerButton"
+                        style={{
+                          // Ensures it looks identical to anchor version
+                          textDecoration: "none",
+                          display: "inline-block",
+                        }}
                       >
                         Request a New Ride
-                      </a>
+                      </button>
                       &nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;
-                      <a
-                        href="#"
+                      <button
                         className="btn btn-warning btn-sm"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleShowModalForNewRide();
-                        }}
-                        data-tippy-content="Looking for a passenger??"
+                        onClick={handleShowModalForNewRide}
+                        data-tippy-content="Looking for a passenger?"
                         data-tippy-placement="top"
                         id="requestButton"
                       >
                         Offer a New Ride
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
