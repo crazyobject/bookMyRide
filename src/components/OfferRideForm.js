@@ -21,7 +21,7 @@ const currentTime = new Date().toLocaleTimeString([], {
 });
 
 // Initial state for new mode
-const initialState = {
+/* const initialState = {
   firstName: "",
   lastName: "",
   contactNumber: "",
@@ -39,7 +39,7 @@ const initialState = {
   fromLocation: "",
   toLocation: "",
 };
-
+*/
 const OfferRideForm = ({
   show,
   handleClose,
@@ -143,7 +143,7 @@ const OfferRideForm = ({
     } /* else {
       setFormData(initialState);
     } */
-  }, [editData]);
+  }, [editData,isEditMode]);
 
   const LOCAL_STORAGE_KEY = "recentRides";
 
@@ -269,7 +269,7 @@ const OfferRideForm = ({
     const ridesFromLocalStorage =
       JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
     setRecentRides(ridesFromLocalStorage);
-  }, [user, show]);
+  }, [user, show,isEditMode]);
 
   return (
     <>
