@@ -118,7 +118,7 @@ const MatchingRides = ({
               <div>
                 {ride.rider.photoURL && (
                   <img
-                    alt="photo"
+                    alt="Rider Profile"
                     src={ride.rider.photoURL}
                     width="43"
                     style={{

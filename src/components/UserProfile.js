@@ -124,8 +124,11 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
             </li>
             <li className="dropdown-item">
               <a
-                href="javascript:void(0);"
-                onClick={onLogout}
+                href="#logout"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onLogout();
+                }}
                 style={{ cursor: "pointer" }}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} className="text-danger" />

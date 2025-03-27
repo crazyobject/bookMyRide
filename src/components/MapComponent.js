@@ -342,9 +342,12 @@ const MapComponent = ({ user }) => {
                     </div>
                     <div>
                       <a
-                        href="javascript:void();"
-                        class="btn btn-success btn-sm"
-                        onClick={handleShowModalForNewRideRequest}
+                        href="#"
+                        className="btn btn-success btn-sm"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleShowModalForNewRideRequest();
+                        }}
                         data-tippy-content="Looking for a car/bike?"
                         data-tippy-placement="top"
                         id="offerButton"
@@ -353,9 +356,12 @@ const MapComponent = ({ user }) => {
                       </a>
                       &nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;
                       <a
-                        href="javascript:void();"
-                        class="btn btn-warning btn-sm"
-                        onClick={() => handleShowModalForNewRide(null)}
+                        href="#"
+                        className="btn btn-warning btn-sm"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleShowModalForNewRide();
+                        }}
                         data-tippy-content="Looking for a passenger??"
                         data-tippy-placement="top"
                         id="requestButton"
