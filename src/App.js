@@ -13,9 +13,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Im
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithRedirect,
   onAuthStateChanged,
-  getRedirectResult,
   signInWithPopup,
   FacebookAuthProvider,
 } from "firebase/auth"; // Firebase imports
@@ -31,7 +29,7 @@ function App() {
   const provider = new GoogleAuthProvider();
 
   useEffect(() => {
-    let deferredPrompt;
+    // let deferredPrompt;
     // Monitor the auth state to update UI if user is logged in or not
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -76,7 +74,7 @@ function App() {
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         await saveToken();
         setUser(user); // Set the logged-in user
@@ -84,8 +82,8 @@ function App() {
         toast.success("Welcome " + user.displayName);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
         setIsAuthenticated(false);
         toast.warn("Can't login!!");
       });
