@@ -42,6 +42,7 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
       {user?.photoURL ? (
         <img
           src={user.photoURL}
+          alt="my profile"
           data-tippy-content="My Profile"
           data-tippy-placement="left"
           width="33px"
@@ -122,7 +123,7 @@ const UserProfile = ({ user, onLogout, showOfferRideForm }) => {
               </a>
             </li>
             <li className="dropdown-item">
-              <a onClick={onLogout} style={{ cursor: "pointer" }}>
+              <a href="javascript:void();" onClick={onLogout} style={{ cursor: "pointer" }}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="text-danger" />
                 <div style={{ fontSize: "8px" }}>Logout</div>{" "}
                 {/* Logout Icon */}
