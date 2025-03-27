@@ -342,7 +342,7 @@ const MapComponent = ({ user }) => {
                     </div>
                     <div>
                       <a
-                        href="#"
+                        href="javascript:void();"
                         class="btn btn-success btn-sm"
                         onClick={handleShowModalForNewRideRequest}
                         data-tippy-content="Looking for a car/bike?"
@@ -353,7 +353,7 @@ const MapComponent = ({ user }) => {
                       </a>
                       &nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;
                       <a
-                        href="#"
+                        href="javascript:void();"
                         class="btn btn-warning btn-sm"
                         onClick={() => handleShowModalForNewRide(null)}
                         data-tippy-content="Looking for a passenger??"
