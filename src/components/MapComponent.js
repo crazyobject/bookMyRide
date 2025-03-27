@@ -183,7 +183,6 @@ const MapComponent = ({ user }) => {
           setLoading(false);
           toast.error("Something went wrong while fetching rides.", error);
         }, 400);
-      } finally {
       }
     } else {
       toast.warn("Please select both pickup and drop locations.", {
