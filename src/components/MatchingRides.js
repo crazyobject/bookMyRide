@@ -1,11 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAlignJustify, faChartLine } from "@fortawesome/free-solid-svg-icons"; // Icon for add/remove
+import { faChartLine } from "@fortawesome/free-solid-svg-icons"; // Icon for add/remove
 import { faPhone, faCommentDots } from "@fortawesome/free-solid-svg-icons"; // Phone and SMS icons
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"; // Import WhatsApp icon
 import "./MatchingRides.css";
 import { DateTime } from "./DateTime";
-import { ROLES } from "../app.config";
 
 const MatchingRides = ({
   rides,
@@ -119,6 +118,7 @@ const MatchingRides = ({
               <div>
                 {ride.rider.photoURL && (
                   <img
+                    alt="photo"
                     src={ride.rider.photoURL}
                     width="43"
                     style={{
