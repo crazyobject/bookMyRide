@@ -94,7 +94,6 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
       } else {
         console.error("Error fetching data", error);
       }
-    } finally {
     }
   };
 
