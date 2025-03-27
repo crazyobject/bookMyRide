@@ -15,7 +15,7 @@ import UserProfile from "./UserProfile";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCar } from "@fortawesome/free-solid-svg-icons"; // Icon for add/remove
+import { faCar } from "@fortawesome/free-solid-svg-icons"; // Icon for add/remove
 import { ROLES } from "../app.config";
 
 // database
