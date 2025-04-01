@@ -226,7 +226,7 @@ const MapComponent = ({ user }) => {
       <div className="map-container">
         <div className="location-inputs">
           <LocationInput
-            placeholder="Enter Pickup Location..."
+            placeholder="Enter pickup Location..."
             onLocationSelect={handlePickupSelect}
           />
           <LocationInput
