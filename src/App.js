@@ -21,6 +21,9 @@ import {
   requestNotificationPermission,
   saveFcmTokenToFirestore,
 } from "../src/services/fcmService";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -96,6 +99,15 @@ function App() {
         <div className="container-fluid p-0">
           <Routes>
             <Route path="/" element={<MapComponent user={user} />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route
+              path="/adminDashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           {!isAuthenticated && (
             <div className="overlay">
