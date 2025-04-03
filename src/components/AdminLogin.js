@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 
@@ -6,6 +6,14 @@ const AdminLogin = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('adminAuth') === 'true';
+    if (isAuthenticated) {
+      navigate('/adminDashboard');
+    }
+  }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

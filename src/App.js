@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignUpForm } from "./components/SignUpForm";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -22,9 +22,16 @@ import {
   saveFcmTokenToFirestore,
 } from "../src/services/fcmService";
 import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/AdminDashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Users from "./components/admin/Users.jsx";
+import Rides from "./components/admin/Rides";
+import ActiveRides from "./components/admin/ActiveRides";
+import RideHistory from "./components/admin/RideHistory";
+import Analytics from "./components/admin/Analytics";
+import Notifications from "./components/admin/Notifications";
+import Settings from "./components/admin/Settings";
+import Security from "./components/admin/Security";
 
 // Wrapper component to handle the overlay logic
 const AppContent = () => {
@@ -114,6 +121,63 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/rides"
+            element={
+              <ProtectedRoute>
+                <Rides />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/active-rides"
+            element={
+              <ProtectedRoute>
+                <ActiveRides />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/ride-history"
+            element={
+              <ProtectedRoute>
+                <RideHistory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/analytics"
+            element={
+              <ProtectedRoute>
+                <Analytics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/notifications"
+            element={
+              <ProtectedRoute>
+                <Notifications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/security"
+            element={
+              <ProtectedRoute>
+                <Security />
+              </ProtectedRoute>
+            }
+          />
+          {/* Add other admin module routes here */}
         </Routes>
         {!isAuthenticated && !isAdminRoute && (
           <div className="overlay">
