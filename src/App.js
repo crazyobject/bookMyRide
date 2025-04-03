@@ -9,14 +9,14 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignUpForm } from "./components/SignUpForm";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Router components
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithPopup,
   FacebookAuthProvider,
-} from "firebase/auth"; // Firebase imports
+} from "firebase/auth";
 import {
   requestNotificationPermission,
   saveFcmTokenToFirestore,
@@ -24,26 +24,26 @@ import {
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Users from "./components/admin/Users.jsx";
 
-function App() {
+// Wrapper component to handle the overlay logic
+const AppContent = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const location = useLocation();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
   useEffect(() => {
-    // let deferredPrompt;
-    // Monitor the auth state to update UI if user is logged in or not
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user); // Set the logged-in user
+        setUser(user);
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
       }
     });
 
-    // Cleanup subscription on unmount
     return () => {
       unsubscribe();
     };
@@ -66,7 +66,6 @@ function App() {
       const token = await requestNotificationPermission();
       if (token) {
         console.log("FCM Token: ", token);
-        // Save token to Firestore
         await saveFcmTokenToFirestore(token);
       }
     } catch (error) {
@@ -77,50 +76,64 @@ function App() {
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         await saveToken();
-        setUser(user); // Set the logged-in user
+        setUser(user);
         setIsAuthenticated(true);
         toast.success("Welcome " + user.displayName);
       })
       .catch((error) => {
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
         setIsAuthenticated(false);
         toast.warn("Can't login!!");
       });
   };
 
+  // Check if we're on the admin routes
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="App">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="container-fluid p-0">
+        <Routes>
+          <Route path="/" element={<MapComponent user={user} />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route
+            path="/adminDashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+        {!isAuthenticated && !isAdminRoute && (
+          <div className="overlay">
+            <div className="overlay-content">
+              <SignUpForm
+                googleHandler={handleGoogleSignIn}
+                facebookHandler={handleFacebookSignIn}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+function App() {
   return (
     <Router>
-      <div className="App">
-        <ToastContainer position="top-right" autoClose={3000} />
-        <div className="container-fluid p-0">
-          <Routes>
-            <Route path="/" element={<MapComponent user={user} />} />
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route
-              path="/adminDashboard"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-          {!isAuthenticated && (
-            <div className="overlay">
-              <div className="overlay-content">
-                <SignUpForm
-                  googleHandler={handleGoogleSignIn}
-                  facebookHandler={handleFacebookSignIn}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <AppContent />
     </Router>
   );
 }

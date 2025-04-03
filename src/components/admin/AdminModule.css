@@ -1,0 +1,52 @@
+.admin-module {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.module-content {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.module-header {
+  margin-bottom: 2rem;
+}
+
+.module-header h1 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.module-header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.module-body {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.content-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.content-card h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.content-card p {
+  color: #7f8c8d;
+  line-height: 1.6;
+} 
