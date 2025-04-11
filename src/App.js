@@ -9,7 +9,13 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignUpForm } from "./components/SignUpForm";
-import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -96,7 +102,7 @@ const AppContent = () => {
   };
 
   // Check if we're on the admin routes
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="App">

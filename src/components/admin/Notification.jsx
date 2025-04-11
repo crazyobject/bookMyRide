@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import './AdminStyles.css';
+import React, { useEffect } from "react";
+import "./AdminStyles.css";
 
 const Notification = ({ message, type, onClose }) => {
   useEffect(() => {
@@ -22,4 +22,4 @@ const Notification = ({ message, type, onClose }) => {
   );
 };
 
-export default Notification; 
+export default Notification;

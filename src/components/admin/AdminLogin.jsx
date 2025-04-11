@@ -1,40 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock } from 'react-icons/fa';
-import './AdminStyles.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUser, FaLock } from "react-icons/fa";
+import "./AdminStyles.css";
 
 const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   // Check if user is already logged in
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('adminAuth') === 'true';
+    const isAuthenticated = localStorage.getItem("adminAuth") === "true";
     if (isAuthenticated) {
-      navigate('/adminDashboard');
+      navigate("/adminDashboard");
     }
   }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (credentials.username === 'admin' && credentials.password === 'admin1239') {
-      localStorage.setItem('adminAuth', 'true');
-      navigate('/adminDashboard');
+    if (
+      credentials.username === "admin" &&
+      credentials.password === "admin1239"
+    ) {
+      localStorage.setItem("adminAuth", "true");
+      navigate("/adminDashboard");
     } else {
-      setError('Invalid username or password');
+      setError("Invalid username or password");
       // Clear error after 3 seconds
-      setTimeout(() => setError(''), 3000);
+      setTimeout(() => setError(""), 3000);
     }
   };
 
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     // Clear error when user starts typing
-    if (error) setError('');
+    if (error) setError("");
   };
 
   return (
@@ -81,4 +87,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin; 
+export default AdminLogin;

@@ -12,7 +12,7 @@ const MapMarkers = ({
   pickupAddress,
   dropAddress,
 }) => {
-  console.log('Addresses:', { pickupAddress, dropAddress });
+  console.log("Addresses:", { pickupAddress, dropAddress });
   const [routeData, setRouteData] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const MapMarkers = ({
   const fetchRoute = async (start, end) => {
     try {
       const response = await fetch(
-        `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`
+        `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`,
       );
       const data = await response.json();
       if (data.routes && data.routes[0]) {
@@ -65,7 +65,7 @@ const MapMarkers = ({
       {routeData && (
         <Polyline
           positions={routeData.map((coord) => [coord[1], coord[0]])}
-          color="#007bff" 
+          color="#007bff"
           weight={5}
           opacity={1}
           eventHandlers={{

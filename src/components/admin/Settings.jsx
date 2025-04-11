@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNav from './AdminNav';
-import './AdminModule.css';
+import React from "react";
+import AdminNav from "./AdminNav";
+import "./AdminModule.css";
 
 const Settings = () => {
   return (
@@ -30,4 +30,4 @@ const Settings = () => {
   );
 };
 
-export default Settings; 
+export default Settings;

@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNav from './AdminNav';
-import './AdminStyles.css';
+import React from "react";
+import AdminNav from "./AdminNav";
+import "./AdminStyles.css";
 
 const Analytics = () => {
   return (
@@ -16,4 +16,4 @@ const Analytics = () => {
   );
 };
 
-export default Analytics; 
+export default Analytics;

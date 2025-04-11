@@ -64,7 +64,9 @@
   border-radius: 8px;
   color: white;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -310,7 +312,7 @@
   max-width: 400px;
   padding: 15px;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s ease-out;
 }
 
@@ -452,9 +454,16 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* User Stats Styles */
@@ -540,7 +549,7 @@
 
 /* Active filter indicator */
 .stat-capsule.active-filter::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -616,4 +625,4 @@
   .search-container {
     max-width: 100%;
   }
-} 
+}

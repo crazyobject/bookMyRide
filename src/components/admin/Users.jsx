@@ -1,25 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import AdminNav from './AdminNav';
-import './AdminStyles.css';
-import './Users.css';
-import { collection, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, writeBatch } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { FaSearch, FaSort, FaSortUp, FaSortDown, FaTrashAlt, FaExclamationTriangle, FaCheckCircle, FaPauseCircle, FaUsers, FaUserCheck, FaUserSlash, FaTimes } from 'react-icons/fa';
-import Notification from './Notification';
+import React, { useState, useEffect } from "react";
+import AdminNav from "./AdminNav";
+import "./AdminStyles.css";
+import "./Users.css";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp,
+  doc,
+  updateDoc,
+  deleteDoc,
+  writeBatch,
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import {
+  FaSearch,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+  FaTrashAlt,
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaPauseCircle,
+  FaUsers,
+  FaUserCheck,
+  FaUserSlash,
+  FaTimes,
+} from "react-icons/fa";
+import Notification from "./Notification";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState('timestamp');
-  const [sortDirection, setSortDirection] = useState('desc');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortField, setSortField] = useState("timestamp");
+  const [sortDirection, setSortDirection] = useState("desc");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [showActionModal, setShowActionModal] = useState({ show: false, type: null });
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [showActionModal, setShowActionModal] = useState({
+    show: false,
+    type: null,
+  });
+  const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
     // Fetch users when the component mounts
@@ -36,22 +62,22 @@ const Users = () => {
     try {
       setLoading(true);
       setError(null);
-      const usersRef = collection(db, 'users'); // Ensure collection name is 'users'
-      const q = query(usersRef, orderBy('timestamp', 'desc')); // Optional: order by timestamp
+      const usersRef = collection(db, "users"); // Ensure collection name is 'users'
+      const q = query(usersRef, orderBy("timestamp", "desc")); // Optional: order by timestamp
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        console.log('No users found in Firestore');
+        console.log("No users found in Firestore");
       } else {
-        const fetchedUsers = querySnapshot.docs.map(doc => ({
+        const fetchedUsers = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         setUsers(fetchedUsers); // Set the fetched users
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
-      setError('Failed to fetch users. Please try again later.');
+      console.error("Error fetching users:", error);
+      setError("Failed to fetch users. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -62,17 +88,18 @@ const Users = () => {
     let filtered = [...users];
 
     // Apply status filter
-    if (activeFilter === 'active') {
-      filtered = filtered.filter(user => user.active);
-    } else if (activeFilter === 'inactive') {
-      filtered = filtered.filter(user => !user.active);
+    if (activeFilter === "active") {
+      filtered = filtered.filter((user) => user.active);
+    } else if (activeFilter === "inactive") {
+      filtered = filtered.filter((user) => !user.active);
     }
 
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.userId.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.userId.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -81,21 +108,21 @@ const Users = () => {
 
   // Handle sorting logic
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortField === key && sortDirection === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortField === key && sortDirection === "asc") {
+      direction = "desc";
     }
     setSortField(key);
     setSortDirection(direction);
 
     const sortedUsers = [...filteredUsers].sort((a, b) => {
-      if (key === 'timestamp') {
-        return direction === 'asc'
+      if (key === "timestamp") {
+        return direction === "asc"
           ? a.timestamp - b.timestamp
           : b.timestamp - a.timestamp;
       }
-      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
-      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
@@ -105,15 +132,15 @@ const Users = () => {
   // Get sort icon based on the current sort field and direction
   const getSortIcon = (key) => {
     if (sortField !== key) return <FaSort />;
-    return sortDirection === 'asc' ? <FaSortUp /> : <FaSortDown />;
+    return sortDirection === "asc" ? <FaSortUp /> : <FaSortDown />;
   };
 
   // Format date to a readable format
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -124,41 +151,41 @@ const Users = () => {
 
   const toggleStatus = async (userId, currentStatus) => {
     try {
-      const userRef = doc(db, 'users', userId);
+      const userRef = doc(db, "users", userId);
       await updateDoc(userRef, {
-        active: !currentStatus
+        active: !currentStatus,
       });
       // Update local state
-      setUsers(users.map(user => 
-        user.id === userId 
-          ? { ...user, active: !currentStatus }
-          : user
-      ));
+      setUsers(
+        users.map((user) =>
+          user.id === userId ? { ...user, active: !currentStatus } : user,
+        ),
+      );
       setNotification({
-        type: 'success',
-        message: `User status successfully updated to ${!currentStatus ? 'active' : 'inactive'}`
+        type: "success",
+        message: `User status successfully updated to ${!currentStatus ? "active" : "inactive"}`,
       });
     } catch (error) {
-      console.error('Error toggling user status:', error);
+      console.error("Error toggling user status:", error);
       setNotification({
-        type: 'error',
-        message: 'Failed to update user status. Please try again.'
+        type: "error",
+        message: "Failed to update user status. Please try again.",
       });
     }
   };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedUsers(filteredUsers.map(user => user.id));
+      setSelectedUsers(filteredUsers.map((user) => user.id));
     } else {
       setSelectedUsers([]);
     }
   };
 
   const handleSelectUser = (userId) => {
-    setSelectedUsers(prev => {
+    setSelectedUsers((prev) => {
       if (prev.includes(userId)) {
-        return prev.filter(id => id !== userId);
+        return prev.filter((id) => id !== userId);
       } else {
         return [...prev, userId];
       }
@@ -169,23 +196,23 @@ const Users = () => {
     try {
       setLoading(true);
       for (const userId of selectedUsers) {
-        await deleteDoc(doc(db, 'users', userId));
+        await deleteDoc(doc(db, "users", userId));
       }
-      
+
       // Update local state
-      setUsers(users.filter(user => !selectedUsers.includes(user.id)));
+      setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
       setSelectedUsers([]); // Clear selection
       setShowDeleteModal(false);
-      
+
       setNotification({
-        type: 'success',
-        message: `Successfully deleted ${selectedUsers.length} user${selectedUsers.length > 1 ? 's' : ''}`
+        type: "success",
+        message: `Successfully deleted ${selectedUsers.length} user${selectedUsers.length > 1 ? "s" : ""}`,
       });
     } catch (error) {
-      console.error('Error deleting users:', error);
+      console.error("Error deleting users:", error);
       setNotification({
-        type: 'error',
-        message: 'Failed to delete users. Please try again.'
+        type: "error",
+        message: "Failed to delete users. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -197,30 +224,32 @@ const Users = () => {
     try {
       setLoading(true);
       const batch = writeBatch(db);
-      
+
       selectedUsers.forEach((userId) => {
-        const userRef = doc(db, 'users', userId);
+        const userRef = doc(db, "users", userId);
         batch.update(userRef, { active: true });
       });
 
       await batch.commit();
-      
+
       // Update local state
-      setUsers(users.map(user => 
-        selectedUsers.includes(user.id) ? { ...user, active: true } : user
-      ));
+      setUsers(
+        users.map((user) =>
+          selectedUsers.includes(user.id) ? { ...user, active: true } : user,
+        ),
+      );
       setSelectedUsers([]);
       setShowActionModal({ show: false, type: null });
-      
+
       setNotification({
-        type: 'success',
-        message: `Successfully activated ${selectedUsers.length} user${selectedUsers.length > 1 ? 's' : ''}`
+        type: "success",
+        message: `Successfully activated ${selectedUsers.length} user${selectedUsers.length > 1 ? "s" : ""}`,
       });
     } catch (error) {
-      console.error('Error activating users:', error);
+      console.error("Error activating users:", error);
       setNotification({
-        type: 'error',
-        message: 'Failed to activate users. Please try again.'
+        type: "error",
+        message: "Failed to activate users. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -231,30 +260,32 @@ const Users = () => {
     try {
       setLoading(true);
       const batch = writeBatch(db);
-      
+
       selectedUsers.forEach((userId) => {
-        const userRef = doc(db, 'users', userId);
+        const userRef = doc(db, "users", userId);
         batch.update(userRef, { active: false });
       });
 
       await batch.commit();
-      
+
       // Update local state
-      setUsers(users.map(user => 
-        selectedUsers.includes(user.id) ? { ...user, active: false } : user
-      ));
+      setUsers(
+        users.map((user) =>
+          selectedUsers.includes(user.id) ? { ...user, active: false } : user,
+        ),
+      );
       setSelectedUsers([]);
       setShowActionModal({ show: false, type: null });
-      
+
       setNotification({
-        type: 'success',
-        message: `Successfully inactivated ${selectedUsers.length} user${selectedUsers.length > 1 ? 's' : ''}`
+        type: "success",
+        message: `Successfully inactivated ${selectedUsers.length} user${selectedUsers.length > 1 ? "s" : ""}`,
       });
     } catch (error) {
-      console.error('Error inactivating users:', error);
+      console.error("Error inactivating users:", error);
       setNotification({
-        type: 'error',
-        message: 'Failed to inactivate users. Please try again.'
+        type: "error",
+        message: "Failed to inactivate users. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -265,38 +296,38 @@ const Users = () => {
   const ActionModal = () => {
     const getModalContent = () => {
       switch (showActionModal.type) {
-        case 'delete':
+        case "delete":
           return {
             icon: <FaExclamationTriangle className="text-red-500 text-3xl" />,
             iconContainerClass: "bg-red-100",
-            title: 'Confirm Deletion',
-            message: `Are you sure you want to delete ${selectedUsers.length} selected user${selectedUsers.length > 1 ? 's' : ''}? This action cannot be undone.`,
+            title: "Confirm Deletion",
+            message: `Are you sure you want to delete ${selectedUsers.length} selected user${selectedUsers.length > 1 ? "s" : ""}? This action cannot be undone.`,
             action: handleDeleteSelected,
-            buttonText: 'Delete Users',
+            buttonText: "Delete Users",
             buttonIcon: <FaTrashAlt />,
-            buttonClass: 'modal-button-delete'
+            buttonClass: "modal-button-delete",
           };
-        case 'activate':
+        case "activate":
           return {
             icon: <FaCheckCircle className="text-green-500 text-3xl" />,
             iconContainerClass: "bg-green-100",
-            title: 'Confirm Activation',
-            message: `Are you sure you want to activate ${selectedUsers.length} selected user${selectedUsers.length > 1 ? 's' : ''}?`,
+            title: "Confirm Activation",
+            message: `Are you sure you want to activate ${selectedUsers.length} selected user${selectedUsers.length > 1 ? "s" : ""}?`,
             action: handleActivateSelected,
-            buttonText: 'Activate Users',
+            buttonText: "Activate Users",
             buttonIcon: <FaCheckCircle />,
-            buttonClass: 'modal-button-activate'
+            buttonClass: "modal-button-activate",
           };
-        case 'inactivate':
+        case "inactivate":
           return {
             icon: <FaPauseCircle className="text-yellow-500 text-3xl" />,
             iconContainerClass: "bg-yellow-100",
-            title: 'Confirm Inactivation',
-            message: `Are you sure you want to inactivate ${selectedUsers.length} selected user${selectedUsers.length > 1 ? 's' : ''}?`,
+            title: "Confirm Inactivation",
+            message: `Are you sure you want to inactivate ${selectedUsers.length} selected user${selectedUsers.length > 1 ? "s" : ""}?`,
             action: handleInactivateSelected,
-            buttonText: 'Inactivate Users',
+            buttonText: "Inactivate Users",
             buttonIcon: <FaPauseCircle />,
-            buttonClass: 'modal-button-inactivate'
+            buttonClass: "modal-button-inactivate",
           };
         default:
           return null;
@@ -310,7 +341,9 @@ const Users = () => {
       <div className="delete-modal-overlay">
         <div className="delete-modal">
           <div className="flex flex-col items-center">
-            <div className={`delete-modal-icon-container ${content.iconContainerClass}`}>
+            <div
+              className={`delete-modal-icon-container ${content.iconContainerClass}`}
+            >
               {content.icon}
             </div>
             <h3 className="delete-modal-title">{content.title}</h3>
@@ -339,15 +372,15 @@ const Users = () => {
   // Add these new calculations
   const userStats = {
     total: users.length,
-    active: users.filter(user => user.active).length,
-    inactive: users.filter(user => !user.active).length
+    active: users.filter((user) => user.active).length,
+    inactive: users.filter((user) => !user.active).length,
   };
 
   // Add handler for capsule clicks
   const handleFilterClick = (filter) => {
     // If clicking the same filter, clear it
     if (activeFilter === filter) {
-      setActiveFilter('all');
+      setActiveFilter("all");
     } else {
       setActiveFilter(filter);
     }
@@ -380,9 +413,9 @@ const Users = () => {
               </div>
             </div>
             <div className="user-stats">
-              <div 
-                className={`stat-capsule total ${activeFilter === 'all' ? 'active-filter' : ''}`}
-                onClick={() => handleFilterClick('all')}
+              <div
+                className={`stat-capsule total ${activeFilter === "all" ? "active-filter" : ""}`}
+                onClick={() => handleFilterClick("all")}
                 role="button"
                 tabIndex={0}
                 title="Show all users"
@@ -395,9 +428,9 @@ const Users = () => {
                   <span className="stat-value">{userStats.total}</span>
                 </div>
               </div>
-              <div 
-                className={`stat-capsule active ${activeFilter === 'active' ? 'active-filter' : ''}`}
-                onClick={() => handleFilterClick('active')}
+              <div
+                className={`stat-capsule active ${activeFilter === "active" ? "active-filter" : ""}`}
+                onClick={() => handleFilterClick("active")}
                 role="button"
                 tabIndex={0}
                 title="Show only active users"
@@ -410,9 +443,9 @@ const Users = () => {
                   <span className="stat-value">{userStats.active}</span>
                 </div>
               </div>
-              <div 
-                className={`stat-capsule inactive ${activeFilter === 'inactive' ? 'active-filter' : ''}`}
-                onClick={() => handleFilterClick('inactive')}
+              <div
+                className={`stat-capsule inactive ${activeFilter === "inactive" ? "active-filter" : ""}`}
+                onClick={() => handleFilterClick("inactive")}
                 role="button"
                 tabIndex={0}
                 title="Show only inactive users"
@@ -427,39 +460,45 @@ const Users = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Show active filter indicator if a filter is applied */}
-          {activeFilter !== 'all' && (
+          {activeFilter !== "all" && (
             <div className="active-filter-indicator">
               Showing {activeFilter} users
-              <button 
+              <button
                 className="clear-filter"
-                onClick={() => setActiveFilter('all')}
+                onClick={() => setActiveFilter("all")}
                 title="Clear filter"
               >
                 <FaTimes />
               </button>
             </div>
           )}
-          
+
           {selectedUsers.length > 0 && (
             <div className="action-buttons">
               <button
-                onClick={() => setShowActionModal({ show: true, type: 'activate' })}
+                onClick={() =>
+                  setShowActionModal({ show: true, type: "activate" })
+                }
                 className="action-button activate-button"
               >
                 <FaCheckCircle />
                 Activate Selected ({selectedUsers.length})
               </button>
               <button
-                onClick={() => setShowActionModal({ show: true, type: 'inactivate' })}
+                onClick={() =>
+                  setShowActionModal({ show: true, type: "inactivate" })
+                }
                 className="action-button inactivate-button"
               >
                 <FaPauseCircle />
                 Inactivate Selected ({selectedUsers.length})
               </button>
               <button
-                onClick={() => setShowActionModal({ show: true, type: 'delete' })}
+                onClick={() =>
+                  setShowActionModal({ show: true, type: "delete" })
+                }
                 className="action-button delete-button"
               >
                 <FaTrashAlt />
@@ -467,7 +506,7 @@ const Users = () => {
               </button>
             </div>
           )}
-          
+
           {loading ? (
             <div className="loading-spinner">Loading...</div>
           ) : error ? (
@@ -483,7 +522,10 @@ const Users = () => {
                           <input
                             type="checkbox"
                             className="custom-checkbox"
-                            checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
+                            checked={
+                              selectedUsers.length === filteredUsers.length &&
+                              filteredUsers.length > 0
+                            }
                             onChange={handleSelectAll}
                           />
                         </div>
@@ -496,24 +538,33 @@ const Users = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Name
                     </th>
-                    <th onClick={() => handleSort('userId')} className="sortable">
+                    <th
+                      onClick={() => handleSort("userId")}
+                      className="sortable"
+                    >
                       <div className="th-content">
-                        User ID {getSortIcon('userId')}
+                        User ID {getSortIcon("userId")}
                       </div>
                     </th>
-                    <th onClick={() => handleSort('timestamp')} className="sortable">
+                    <th
+                      onClick={() => handleSort("timestamp")}
+                      className="sortable"
+                    >
                       <div className="th-content">
-                        Date {getSortIcon('timestamp')}
+                        Date {getSortIcon("timestamp")}
                       </div>
                     </th>
-                    <th onClick={() => handleSort('kyc')} className="sortable">
+                    <th onClick={() => handleSort("kyc")} className="sortable">
                       <div className="th-content">
-                        KYC Status {getSortIcon('kyc')}
+                        KYC Status {getSortIcon("kyc")}
                       </div>
                     </th>
-                    <th onClick={() => handleSort('active')} className="sortable">
+                    <th
+                      onClick={() => handleSort("active")}
+                      className="sortable"
+                    >
                       <div className="th-content">
-                        Status {getSortIcon('active')}
+                        Status {getSortIcon("active")}
                       </div>
                     </th>
                   </tr>
@@ -540,17 +591,19 @@ const Users = () => {
                       <td title={user.userId}>{truncateUserId(user.userId)}</td>
                       <td>{formatDate(user.timestamp)}</td>
                       <td>
-                        <span className={`status-badge ${user.kyc ? 'verified' : 'pending'}`}>
-                          {user.kyc ? 'Verified' : 'Pending'}
+                        <span
+                          className={`status-badge ${user.kyc ? "verified" : "pending"}`}
+                        >
+                          {user.kyc ? "Verified" : "Pending"}
                         </span>
                       </td>
                       <td>
-                        <span 
-                          className={`status-badge ${user.active ? 'active' : 'inactive'} cursor-pointer`}
+                        <span
+                          className={`status-badge ${user.active ? "active" : "inactive"} cursor-pointer`}
                           onClick={() => toggleStatus(user.id, user.active)}
                           title="Click to toggle status"
                         >
-                          {user.active ? 'Active' : 'Inactive'}
+                          {user.active ? "Active" : "Inactive"}
                         </span>
                       </td>
                     </tr>

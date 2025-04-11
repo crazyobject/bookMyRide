@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNav from './AdminNav';
-import './AdminModule.css';
+import React from "react";
+import AdminNav from "./AdminNav";
+import "./AdminModule.css";
 
 const Rides = () => {
   return (
@@ -26,4 +26,4 @@ const Rides = () => {
   );
 };
 
-export default Rides; 
+export default Rides;

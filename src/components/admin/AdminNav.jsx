@@ -1,17 +1,17 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './AdminStyles.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./AdminStyles.css";
 
 const AdminNav = ({ currentModule }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    navigate('/admin');
+    localStorage.removeItem("adminAuth");
+    navigate("/admin");
   };
 
   const handleHome = () => {
-    navigate('/adminDashboard');
+    navigate("/adminDashboard");
   };
 
   return (
@@ -31,4 +31,4 @@ const AdminNav = ({ currentModule }) => {
   );
 };
 
-export default AdminNav; 
+export default AdminNav;

@@ -82,13 +82,13 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
         setIsLoading(false);
       }
     },
-    [cleanup]
+    [cleanup],
   );
 
   // Debounced version of fetchSuggestions
   const debouncedFetchSuggestions = useCallback(
     debounce((query) => fetchSuggestions(query), DEBOUNCE_DELAY),
-    [fetchSuggestions]
+    [fetchSuggestions],
   );
 
   // Handle input change event
@@ -98,7 +98,7 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
       setInputValue(query);
       debouncedFetchSuggestions(query);
     },
-    [debouncedFetchSuggestions]
+    [debouncedFetchSuggestions],
   );
 
   // Handle location selection
@@ -109,7 +109,7 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
       onLocationSelect?.(suggestion);
       inputRef.current?.blur();
     },
-    [onLocationSelect]
+    [onLocationSelect],
   );
 
   // Clear input and suggestions
