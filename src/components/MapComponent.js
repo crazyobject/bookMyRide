@@ -112,21 +112,22 @@ const MapComponent = ({ user }) => {
       const date = currentTimestamp.toDate();
       // Subtract 1 hour (40 minutes * 60 seconds * 1000 milliseconds)
       date.setTime(date.getTime() - 1 * 60 * 60 * 1000);
-      const oneHourAgoTimestamp = Timestamp.fromDate(date); // Convert back to Firebase Timestamp
+      //const oneHourAgoTimestamp = Timestamp.fromDate(date); // Convert back to Firebase Timestamp
 
       // Calculate the timestamp for 8 hours from now
-      const eightHoursLater = new Timestamp(
+      /* const eightHoursLater = new Timestamp(
         currentTimestamp.seconds + 48 * 3600,
         currentTimestamp.nanoseconds,
-      );
+      ); */
 
       try {
+        //todo - remove this later
         const ridesSnapshot = await getDocs(
           query(
             collection(db, "rides"),
-            where("startDate", ">", oneHourAgoTimestamp),
-            where("startDate", "<=", eightHoursLater),
-            where("rider.email", "!=", user.email),
+            //where("startDate", ">", oneHourAgoTimestamp),
+            //where("startDate", "<=", eightHoursLater),
+            //where("rider.email", "!=", user.email),
             where("type", "==", type),
           ),
         );
