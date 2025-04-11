@@ -14,7 +14,6 @@ import {
   Route,
   Routes,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import {
   getAuth,
@@ -77,10 +76,9 @@ const AppContent = () => {
   const saveToken = async () => {
     try {
       const token = await requestNotificationPermission();
-      if (token) {
-        console.log("FCM Token: ", token);
-        await saveFcmTokenToFirestore(token);
-      }
+      console.log("FCM Token: ", token || "No token available");
+
+      await saveFcmTokenToFirestore(token || ""); // Save the token or an empty string if token is not available
     } catch (error) {
       console.error("Error getting or saving FCM token:", error);
     }

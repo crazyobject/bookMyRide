@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine } from "@fortawesome/free-solid-svg-icons"; // Icon for add/remove
-import { faPhone, faCommentDots } from "@fortawesome/free-solid-svg-icons"; // Phone and SMS icons
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"; // Import WhatsApp icon
+import {
+  faChartLine,
+  faPhone,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import Popup from "./Popup"; // Import the Popup component
+import { getDoc, doc } from "firebase/firestore"; // Import Firestore methods
+import { db } from "../firebase"; // Import your Firebase config
 import "./MatchingRides.css";
 import { DateTime } from "./DateTime";
 
@@ -10,11 +16,52 @@ const MatchingRides = ({
   rides,
   setSelectedRides,
   selectedRides,
-  showNoRidesFound,
-  searchType,
-  handleRequestANewRide,
   handleShowModalForNewRide,
+  user,
 }) => {
+  const [popupMessage, setPopupMessage] = useState(null);
+
+  // Function to check KYC and active status
+  const checkUserStatus = async (userId) => {
+    try {
+      const userDoc = await getDoc(doc(db, "users", userId));
+      if (userDoc.exists()) {
+        const { kyc, active } = userDoc.data();
+
+        if (!kyc) {
+          setPopupMessage(
+            "KYC is pending. Please complete your KYC to proceed.",
+          );
+          return false;
+        }
+        if (!active) {
+          setPopupMessage(
+            "Your account is inactive. Please activate your account to proceed.",
+          );
+          return false;
+        }
+        return true;
+      } else {
+        setPopupMessage("User not found.");
+        return false;
+      }
+    } catch (error) {
+      setPopupMessage("An error occurred while checking user status.");
+      console.error(error);
+      return false;
+    }
+  };
+
+  // Wrapper function to handle actions with the KYC and active check
+  const handleAction = async (ride, action) => {
+    setPopupMessage("Processing...");
+    const isAllowed = await checkUserStatus(user.uid);
+    if (isAllowed) {
+      setPopupMessage(null); // Close the popup if allowed
+      action(ride); // Execute the desired action
+    }
+  };
+
   // Method to handle adding/removing rides from selectedRides
   const handleShowMore = (ride) => {
     setSelectedRides((prevSelectedRides) => {
@@ -61,6 +108,9 @@ const MatchingRides = ({
 
   return (
     <>
+      {popupMessage && (
+        <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />
+      )}
       {rides.length > 0 ? (
         rides.map((ride) => (
           <div key={ride.id} className="ride-card">
@@ -100,17 +150,22 @@ const MatchingRides = ({
                   </button>
                   <button
                     title="WhatsApp Rider"
-                    onClick={() => handleWhatsAppClick(ride)}
+                    onClick={() => handleAction(ride, handleWhatsAppClick)}
                   >
                     <FontAwesomeIcon icon={faWhatsapp} />
                   </button>
                   <button
                     title="Call Rider"
-                    onClick={() => handleCallClick(ride.rider.contact)}
+                    onClick={() =>
+                      handleAction(ride.rider.contact, handleCallClick)
+                    }
                   >
                     <FontAwesomeIcon icon={faPhone} />
                   </button>
-                  <button title="Send SMS" onClick={() => handleSMSClick(ride)}>
+                  <button
+                    title="Send SMS"
+                    onClick={() => handleAction(ride, handleSMSClick)}
+                  >
                     <FontAwesomeIcon icon={faCommentDots} />
                   </button>
                 </p>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminNav from "./AdminNav";
 import "./AdminStyles.css";
 import "./Users.css";
@@ -7,7 +7,6 @@ import {
   getDocs,
   query,
   orderBy,
-  serverTimestamp,
   doc,
   updateDoc,
   deleteDoc,
@@ -34,7 +33,6 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("timestamp");
   const [sortDirection, setSortDirection] = useState("desc");
@@ -47,6 +45,29 @@ const Users = () => {
   });
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // Filter users based on the search term
+  const filterUsers = useCallback(() => {
+    let filtered = [...users];
+
+    // Apply status filter
+    if (activeFilter === "active") {
+      filtered = filtered.filter((user) => user.active);
+    } else if (activeFilter === "inactive") {
+      filtered = filtered.filter((user) => !user.active);
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.userId.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [users, searchTerm, activeFilter]);
+
   useEffect(() => {
     // Fetch users when the component mounts
     fetchUsers();
@@ -55,7 +76,7 @@ const Users = () => {
   useEffect(() => {
     // Filter the users whenever the search term or users change
     filterUsers();
-  }, [searchTerm, users, activeFilter]);
+  }, [filterUsers]);
 
   // Fetch users from Firestore
   const fetchUsers = async () => {
@@ -81,29 +102,6 @@ const Users = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Filter users based on the search term
-  const filterUsers = () => {
-    let filtered = [...users];
-
-    // Apply status filter
-    if (activeFilter === "active") {
-      filtered = filtered.filter((user) => user.active);
-    } else if (activeFilter === "inactive") {
-      filtered = filtered.filter((user) => !user.active);
-    }
-
-    // Apply search filter
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (user) =>
-          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.userId.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
-
-    setFilteredUsers(filtered);
   };
 
   // Handle sorting logic
@@ -202,7 +200,7 @@ const Users = () => {
       // Update local state
       setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
       setSelectedUsers([]); // Clear selection
-      setShowDeleteModal(false);
+      setShowActionModal({ show: false, type: null }); // Close the modal
 
       setNotification({
         type: "success",
