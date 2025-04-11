@@ -14,7 +14,6 @@ import {
   Route,
   Routes,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import {
   getAuth,
