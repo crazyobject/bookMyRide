@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faPhone, faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartLine,
+  faPhone,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import Popup from "./Popup"; // Import the Popup component
 import { getDoc, doc } from "firebase/firestore"; // Import Firestore methods
-import { db } from "../firebase";// Import your Firebase config
+import { db } from "../firebase"; // Import your Firebase config
 import "./MatchingRides.css";
 import { DateTime } from "./DateTime";
 
@@ -23,13 +27,17 @@ const MatchingRides = ({
       const userDoc = await getDoc(doc(db, "users", userId));
       if (userDoc.exists()) {
         const { kyc, active } = userDoc.data();
-         
+
         if (!kyc) {
-          setPopupMessage("KYC is pending. Please complete your KYC to proceed.");
+          setPopupMessage(
+            "KYC is pending. Please complete your KYC to proceed.",
+          );
           return false;
         }
         if (!active) {
-          setPopupMessage("Your account is inactive. Please activate your account to proceed.");
+          setPopupMessage(
+            "Your account is inactive. Please activate your account to proceed.",
+          );
           return false;
         }
         return true;
@@ -100,7 +108,9 @@ const MatchingRides = ({
 
   return (
     <>
-      {popupMessage && <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />}
+      {popupMessage && (
+        <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />
+      )}
       {rides.length > 0 ? (
         rides.map((ride) => (
           <div key={ride.id} className="ride-card">
@@ -146,11 +156,16 @@ const MatchingRides = ({
                   </button>
                   <button
                     title="Call Rider"
-                    onClick={() => handleAction(ride.rider.contact, handleCallClick)}
+                    onClick={() =>
+                      handleAction(ride.rider.contact, handleCallClick)
+                    }
                   >
                     <FontAwesomeIcon icon={faPhone} />
                   </button>
-                  <button title="Send SMS" onClick={() => handleAction(ride, handleSMSClick)}>
+                  <button
+                    title="Send SMS"
+                    onClick={() => handleAction(ride, handleSMSClick)}
+                  >
                     <FontAwesomeIcon icon={faCommentDots} />
                   </button>
                 </p>

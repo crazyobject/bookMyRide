@@ -77,7 +77,7 @@ const AppContent = () => {
     try {
       const token = await requestNotificationPermission();
       console.log("FCM Token: ", token || "No token available");
-      
+
       await saveFcmTokenToFirestore(token || ""); // Save the token or an empty string if token is not available
     } catch (error) {
       console.error("Error getting or saving FCM token:", error);

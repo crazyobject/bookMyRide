@@ -6,7 +6,7 @@ import {
   collection,
   getDocs,
   query,
-  orderBy,  
+  orderBy,
   doc,
   updateDoc,
   deleteDoc,

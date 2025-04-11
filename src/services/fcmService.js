@@ -104,7 +104,8 @@ export const sendPushNotification = async (newRide) => {
 export const saveFcmTokenToFirestore = async (fcmToken) => {
   try {
     const user = auth.currentUser; // Get the logged-in user
-    if (user) { // Removed fcmToken from the condition
+    if (user) {
+      // Removed fcmToken from the condition
       // Create a reference to the "users" collection with UID as the document ID
       const userRef = doc(db, "users", user.uid);
 

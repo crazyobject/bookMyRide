@@ -89,7 +89,7 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
   const debouncedFetchSuggestions = useRef(
     debounce((query) => {
       fetchSuggestions(query);
-    }, DEBOUNCE_DELAY)
+    }, DEBOUNCE_DELAY),
   ).current;
 
   // Handle input change event
@@ -99,16 +99,19 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
       setInputValue(query);
       debouncedFetchSuggestions(query);
     },
-    [debouncedFetchSuggestions]
+    [debouncedFetchSuggestions],
   );
 
   // Handle location selection
-  const handleSelectSuggestion = useCallback((suggestion) => {
-    setInputValue(suggestion.display_name);
-    setSuggestions([]);
-    onLocationSelect?.(suggestion);
-    inputRef.current?.blur();
-  }, [onLocationSelect, setInputValue, setSuggestions]);
+  const handleSelectSuggestion = useCallback(
+    (suggestion) => {
+      setInputValue(suggestion.display_name);
+      setSuggestions([]);
+      onLocationSelect?.(suggestion);
+      inputRef.current?.blur();
+    },
+    [onLocationSelect, setInputValue, setSuggestions],
+  );
 
   // Clear input and suggestions
   const clearInput = useCallback(() => {
