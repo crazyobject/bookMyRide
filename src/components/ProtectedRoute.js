@@ -1,8 +1,8 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('adminAuth') === 'true';
+  const isAuthenticated = localStorage.getItem("adminAuth") === "true";
 
   if (!isAuthenticated) {
     return <Navigate to="/admin" replace />;
@@ -11,4 +11,4 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

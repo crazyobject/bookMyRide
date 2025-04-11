@@ -1,68 +1,78 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdminNav from './AdminNav';
-import './AdminStyles.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaUsers,
+  FaCar,
+  FaCog,
+  FaChartBar,
+  FaBell,
+  FaUserShield,
+  FaMapMarkedAlt,
+  FaHistory,
+} from "react-icons/fa";
+import AdminNav from "./AdminNav";
+import "./AdminStyles.css";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const modules = [
     {
-      title: 'Users',
-      description: 'Manage user accounts and permissions',
-      icon: '👥',
-      path: '/admin/users',
-      color: '#4CAF50'
+      title: "Users",
+      icon: <FaUsers />,
+      path: "/admin/users",
+      color: "#4CAF50",
+      description: "Manage user accounts and permissions",
     },
     {
-      title: 'Rides',
-      description: 'View and manage all rides',
-      icon: '🚗',
-      path: '/admin/rides',
-      color: '#2196F3'
+      title: "Rides",
+      icon: <FaCar />,
+      path: "/admin/rides",
+      color: "#2196F3",
+      description: "Monitor and manage ride requests",
     },
     {
-      title: 'Active Rides',
-      description: 'Monitor ongoing rides',
-      icon: '📍',
-      path: '/admin/active-rides',
-      color: '#FF9800'
+      title: "Active Rides",
+      icon: <FaMapMarkedAlt />,
+      path: "/admin/active-rides",
+      color: "#FF9800",
+      description: "Track and manage ongoing rides",
     },
     {
-      title: 'Ride History',
-      description: 'View past ride records',
-      icon: '📜',
-      path: '/admin/ride-history',
-      color: '#9C27B0'
+      title: "Ride History",
+      icon: <FaHistory />,
+      path: "/admin/ride-history",
+      color: "#F39C12",
+      description: "View completed ride history",
     },
     {
-      title: 'Analytics',
-      description: 'View system analytics and reports',
-      icon: '📊',
-      path: '/admin/analytics',
-      color: '#E91E63'
+      title: "Analytics",
+      icon: <FaChartBar />,
+      path: "/admin/analytics",
+      color: "#E91E63",
+      description: "View platform statistics and reports",
     },
     {
-      title: 'Notifications',
-      description: 'Manage system notifications',
-      icon: '🔔',
-      path: '/admin/notifications',
-      color: '#00BCD4'
+      title: "Notifications",
+      icon: <FaBell />,
+      path: "/admin/notifications",
+      color: "#00BCD4",
+      description: "Manage system notifications",
     },
     {
-      title: 'Settings',
-      description: 'Configure system settings',
-      icon: '⚙️',
-      path: '/admin/settings',
-      color: '#607D8B'
+      title: "Settings",
+      icon: <FaCog />,
+      path: "/admin/settings",
+      color: "#607D8B",
+      description: "Configure system settings",
     },
     {
-      title: 'Security',
-      description: 'Manage security settings',
-      icon: '🔒',
-      path: '/admin/security',
-      color: '#F44336'
-    }
+      title: "Security",
+      icon: <FaUserShield />,
+      path: "/admin/security",
+      color: "#F44336",
+      description: "Manage security settings and access",
+    },
   ];
 
   return (
@@ -88,4 +98,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;

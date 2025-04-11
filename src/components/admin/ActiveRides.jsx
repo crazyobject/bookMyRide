@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNav from './AdminNav';
-import './AdminStyles.css';
+import React from "react";
+import AdminNav from "./AdminNav";
+import "./AdminStyles.css";
 
 const ActiveRides = () => {
   return (
@@ -16,4 +16,4 @@ const ActiveRides = () => {
   );
 };
 
-export default ActiveRides; 
+export default ActiveRides;

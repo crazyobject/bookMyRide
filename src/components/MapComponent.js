@@ -39,14 +39,16 @@ L.Icon.Default.mergeOptions({
 
 const MapComponent = ({ user }) => {
   const [pickupCoords, setPickupCoords] = useState(null);
-  const [rideMode, setRideMode] = useState("offer");
+  const [pickupAddress, setPickupAddress] = useState("");
   const [dropCoords, setDropCoords] = useState(null);
+  const [dropAddress, setDropAddress] = useState("");
+  const [rideMode, setRideMode] = useState("offer");
   const [matchingRides, setMatchingRides] = useState([]);
   const [selectedRides, setSelectedRides] = useState([]);
   const [hoveredRideId, setHoveredRideId] = useState(null);
   const [showOfferRideModal, setShowOfferRideModal] = useState(false);
   const [showNoRidesFound, setShowNoRidesFound] = useState(false);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false);
   const [searchType, setSearchType] = useState("offer");
 
   useEffect(() => {
@@ -83,10 +85,12 @@ const MapComponent = ({ user }) => {
 
   const handlePickupSelect = useCallback((location) => {
     setPickupCoords([location.lat, location.lon]);
+    setPickupAddress(location.display_name);
   }, []);
 
   const handleDropSelect = useCallback((location) => {
     setDropCoords([location.lat, location.lon]);
+    setDropAddress(location.display_name);
   }, []);
 
   const handleFindMyRide = async (type) => {
@@ -298,6 +302,8 @@ const MapComponent = ({ user }) => {
           <MapMarkers
             pickupCoords={pickupCoords}
             dropCoords={dropCoords}
+            pickupAddress={pickupAddress}
+            dropAddress={dropAddress}
             selectedRides={selectedRides}
             hoveredRideId={hoveredRideId}
             setHoveredRideId={setHoveredRideId}

@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNav from './AdminNav';
-import './AdminStyles.css';
+import React from "react";
+import AdminNav from "./AdminNav";
+import "./AdminStyles.css";
 
 const RideHistory = () => {
   return (
@@ -16,4 +16,4 @@ const RideHistory = () => {
   );
 };
 
-export default RideHistory; 
+export default RideHistory;

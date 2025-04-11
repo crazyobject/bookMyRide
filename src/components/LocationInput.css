@@ -57,8 +57,8 @@
   padding: 7px 10px;
   cursor: pointer;
   transition: background-color 0.2s;
-  text-align: left;
-  font-size: 15px;
+  text-align: left; /* This is already set to left */
+  font-size: 13px;
 }
 
 /* Hover effect for suggestion items */
@@ -70,4 +70,172 @@
 /* Styling for empty state when no suggestions */
 .autocomplete-dropdown:empty {
   display: none; /* Hide dropdown if there are no suggestions */
+}
+
+/* Container styling */
+.location-input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Label styling */
+.location-input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Input group styling */
+.location-input-group {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Input field styling */
+.location-input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.location-input-field:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Clear button styling */
+.location-clear-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 1rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+}
+
+.location-clear-button:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Loading indicator styling */
+.location-loading {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+/* Error message styling */
+.location-error {
+  margin-top: 0.5rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Suggestions dropdown styling */
+.location-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-width: 400px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  text-align: left; /* Add this line */
+}
+
+/* Suggestion item styling */
+.location-suggestion-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f8f9fa;
+  text-align: left; /* This is already set to left */
+  font-size: 13px;
+}
+
+.location-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.location-suggestion-item:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Tooltip styling */
+.leaflet-tooltip {
+  width: 250px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+/* Route tooltip styling */
+.route-tooltip {
+  background: white !important;
+  border: 1px solid #007bff !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.route-tooltip-content {
+  max-width: 300px;
+}
+
+.route-info {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.route-info strong {
+  color: #007bff;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.route-distance {
+  margin-top: 4px;
+  font-weight: 500;
+  color: #28a745;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .location-input-group {
+    max-width: 100%;
+  }
+
+  .location-suggestions {
+    max-width: 100%;
+  }
 }
