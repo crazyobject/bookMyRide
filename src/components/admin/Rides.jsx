@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminNav from '../AdminNav.jsx';
+import AdminNav from './AdminNav';
 import './AdminModule.css';
 
 const Rides = () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUsers, FaCar, FaCog, FaChartBar, FaBell, FaUserShield, FaMapMarkedAlt, FaHistory } from 'react-icons/fa';
 import AdminNav from './AdminNav';
 import './AdminStyles.css';
 
@@ -9,59 +10,59 @@ const AdminDashboard = () => {
   const modules = [
     {
       title: 'Users',
-      description: 'Manage user accounts and permissions',
-      icon: '👥',
+      icon: <FaUsers />,
       path: '/admin/users',
-      color: '#4CAF50'
+      color: '#4CAF50',
+      description: 'Manage user accounts and permissions'
     },
     {
       title: 'Rides',
-      description: 'View and manage all rides',
-      icon: '🚗',
+      icon: <FaCar />,
       path: '/admin/rides',
-      color: '#2196F3'
+      color: '#2196F3',
+      description: 'Monitor and manage ride requests'
     },
     {
       title: 'Active Rides',
-      description: 'Monitor ongoing rides',
-      icon: '📍',
+      icon: <FaMapMarkedAlt />,
       path: '/admin/active-rides',
-      color: '#FF9800'
+      color: '#FF9800',
+      description: 'Track and manage ongoing rides'
     },
     {
       title: 'Ride History',
-      description: 'View past ride records',
-      icon: '📜',
+      icon: <FaHistory />,
       path: '/admin/ride-history',
-      color: '#9C27B0'
+      color: '#F39C12',
+      description: 'View completed ride history'
     },
     {
       title: 'Analytics',
-      description: 'View system analytics and reports',
-      icon: '📊',
+      icon: <FaChartBar />,
       path: '/admin/analytics',
-      color: '#E91E63'
+      color: '#E91E63',
+      description: 'View platform statistics and reports'
     },
     {
       title: 'Notifications',
-      description: 'Manage system notifications',
-      icon: '🔔',
+      icon: <FaBell />,
       path: '/admin/notifications',
-      color: '#00BCD4'
+      color: '#00BCD4',
+      description: 'Manage system notifications'
     },
     {
       title: 'Settings',
-      description: 'Configure system settings',
-      icon: '⚙️',
+      icon: <FaCog />,
       path: '/admin/settings',
-      color: '#607D8B'
+      color: '#607D8B',
+      description: 'Configure system settings'
     },
     {
       title: 'Security',
-      description: 'Manage security settings',
-      icon: '🔒',
+      icon: <FaUserShield />,
       path: '/admin/security',
-      color: '#F44336'
+      color: '#F44336',
+      description: 'Manage security settings and access'
     }
   ];
 

@@ -21,7 +21,7 @@ import {
   requestNotificationPermission,
   saveFcmTokenToFirestore,
 } from "../src/services/fcmService";
-import AdminLogin from "./components/AdminLogin";
+import AdminLogin from "./components/admin/AdminLogin";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Users from "./components/admin/Users.jsx";
