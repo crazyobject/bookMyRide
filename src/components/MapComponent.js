@@ -330,6 +330,7 @@ const MapComponent = ({ user }) => {
               searchType={searchType} // offer or requetst
               handleRequestANewRide={handleShowModalForNewRideRequest}
               handleShowModalForNewRide={handleShowModalForNewRide}
+              user={user}
             />
             {matchingRides.length === 0 && (
               <p>

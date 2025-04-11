@@ -33,7 +33,6 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  //const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("timestamp");
   const [sortDirection, setSortDirection] = useState("desc");
@@ -201,7 +200,7 @@ const Users = () => {
       // Update local state
       setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
       setSelectedUsers([]); // Clear selection
-      //setShowDeleteModal(false);
+      setShowActionModal({ show: false, type: null }); // Close the modal
 
       setNotification({
         type: "success",
