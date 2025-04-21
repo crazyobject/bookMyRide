@@ -14,7 +14,7 @@ describe("MatchingRides Component", () => {
           photoURL: "https://example.com/photo.jpg",
         },
         route: {
-          start: { address: "Start Location" },
+          start: { address: "Start Location-" },
           end: { address: "End Location" },
         },
         startDate: "2024-03-20T10:00:00",

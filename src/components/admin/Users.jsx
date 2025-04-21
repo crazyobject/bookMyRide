@@ -172,6 +172,33 @@ const Users = () => {
     }
   };
 
+  const toggleKycStatus = async (userId, currentKycStatus) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        kyc: !currentKycStatus,
+      });
+      // Update local state
+      setUsers(
+        users.map((user) =>
+          user.id === userId ? { ...user, kyc: !currentKycStatus } : user
+        )
+      );
+      setNotification({
+        type: "success",
+        message: `User KYC status successfully updated to ${
+          !currentKycStatus ? "Verified" : "Pending"
+        }`,
+      });
+    } catch (error) {
+      console.error("Error toggling KYC status:", error);
+      setNotification({
+        type: "error",
+        message: "Failed to update KYC status. Please try again.",
+      });
+    }
+  };
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedUsers(filteredUsers.map((user) => user.id));
@@ -590,16 +617,18 @@ const Users = () => {
                       <td>{formatDate(user.timestamp)}</td>
                       <td>
                         <span
-                          className={`status-badge ${user.kyc ? "verified" : "pending"}`}
+                          className={`status-badge ${user.kyc ? "verified" : "pending"} cursor-pointer`} // Add cursor-pointer class
+                          title={user.kyc ? "KYC Verified" : "KYC Pending"}
+                          onClick={() => toggleKycStatus(user.id, user.kyc)} // Add onClick handler
                         >
                           {user.kyc ? "Verified" : "Pending"}
                         </span>
                       </td>
                       <td>
                         <span
-                          className={`status-badge ${user.active ? "active" : "inactive"} cursor-pointer`}
+                          className={`status-badge ${user.active ? "active" : "inactive"} cursor-pointer`} // Add cursor-pointer class
                           onClick={() => toggleStatus(user.id, user.active)}
-                          title="Click to toggle status"
+                          title={user.active ? "Click to inactivate" : "Click to activate"} // Dynamically set the title
                         >
                           {user.active ? "Active" : "Inactive"}
                         </span>

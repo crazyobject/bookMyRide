@@ -137,7 +137,7 @@ const MatchingRides = ({
                   <p>
                     <b>Car: </b> {ride.car.model || "--"} (
                     {ride.car.number || "--"}) / <b>Seats: </b>
-                    {ride.car.seats || "--"} / <b>Tarrif: </b>
+                    {ride.car.seats || "--"} / <b>  : </b>
                     {ride.car.amount || "--"}
                   </p>
                 )}
@@ -146,7 +146,7 @@ const MatchingRides = ({
                     <FontAwesomeIcon icon={faChartLine} />
                     {selectedRides.some((r) => r.id === ride.id)
                       ? " Remove"
-                      : " Add"}
+                      : " Route"}
                   </button>
                   <button
                     title="WhatsApp Rider"
