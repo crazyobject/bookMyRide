@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminNav from "./AdminNav";
 import "./AdminStyles.css";
 import "./Users.css";
@@ -7,7 +7,6 @@ import {
   getDocs,
   query,
   orderBy,
-  serverTimestamp,
   doc,
   updateDoc,
   deleteDoc,
@@ -34,7 +33,6 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("timestamp");
   const [sortDirection, setSortDirection] = useState("desc");
@@ -47,6 +45,29 @@ const Users = () => {
   });
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // Filter users based on the search term
+  const filterUsers = useCallback(() => {
+    let filtered = [...users];
+
+    // Apply status filter
+    if (activeFilter === "active") {
+      filtered = filtered.filter((user) => user.active);
+    } else if (activeFilter === "inactive") {
+      filtered = filtered.filter((user) => !user.active);
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.userId.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [users, searchTerm, activeFilter]);
+
   useEffect(() => {
     // Fetch users when the component mounts
     fetchUsers();
@@ -55,7 +76,7 @@ const Users = () => {
   useEffect(() => {
     // Filter the users whenever the search term or users change
     filterUsers();
-  }, [searchTerm, users, activeFilter]);
+  }, [filterUsers]);
 
   // Fetch users from Firestore
   const fetchUsers = async () => {
@@ -81,29 +102,6 @@ const Users = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Filter users based on the search term
-  const filterUsers = () => {
-    let filtered = [...users];
-
-    // Apply status filter
-    if (activeFilter === "active") {
-      filtered = filtered.filter((user) => user.active);
-    } else if (activeFilter === "inactive") {
-      filtered = filtered.filter((user) => !user.active);
-    }
-
-    // Apply search filter
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (user) =>
-          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.userId.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
-
-    setFilteredUsers(filtered);
   };
 
   // Handle sorting logic
@@ -174,6 +172,33 @@ const Users = () => {
     }
   };
 
+  const toggleKycStatus = async (userId, currentKycStatus) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        kyc: !currentKycStatus,
+      });
+      // Update local state
+      setUsers(
+        users.map((user) =>
+          user.id === userId ? { ...user, kyc: !currentKycStatus } : user
+        )
+      );
+      setNotification({
+        type: "success",
+        message: `User KYC status successfully updated to ${
+          !currentKycStatus ? "Verified" : "Pending"
+        }`,
+      });
+    } catch (error) {
+      console.error("Error toggling KYC status:", error);
+      setNotification({
+        type: "error",
+        message: "Failed to update KYC status. Please try again.",
+      });
+    }
+  };
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedUsers(filteredUsers.map((user) => user.id));
@@ -202,7 +227,7 @@ const Users = () => {
       // Update local state
       setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
       setSelectedUsers([]); // Clear selection
-      setShowDeleteModal(false);
+      setShowActionModal({ show: false, type: null }); // Close the modal
 
       setNotification({
         type: "success",
@@ -592,16 +617,18 @@ const Users = () => {
                       <td>{formatDate(user.timestamp)}</td>
                       <td>
                         <span
-                          className={`status-badge ${user.kyc ? "verified" : "pending"}`}
+                          className={`status-badge ${user.kyc ? "verified" : "pending"} cursor-pointer`} // Add cursor-pointer class
+                          title={user.kyc ? "KYC Verified" : "KYC Pending"}
+                          onClick={() => toggleKycStatus(user.id, user.kyc)} // Add onClick handler
                         >
                           {user.kyc ? "Verified" : "Pending"}
                         </span>
                       </td>
                       <td>
                         <span
-                          className={`status-badge ${user.active ? "active" : "inactive"} cursor-pointer`}
+                          className={`status-badge ${user.active ? "active" : "inactive"} cursor-pointer`} // Add cursor-pointer class
                           onClick={() => toggleStatus(user.id, user.active)}
-                          title="Click to toggle status"
+                          title={user.active ? "Click to inactivate" : "Click to activate"} // Dynamically set the title
                         >
                           {user.active ? "Active" : "Inactive"}
                         </span>

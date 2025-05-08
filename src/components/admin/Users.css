@@ -3,13 +3,14 @@
   width: 100%;
   overflow-x: auto;
 }
-
+.cursor-pointer {
+  cursor: pointer;
+}
 .users-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
-
 /* Checkbox Styles */
 .custom-checkbox {
   appearance: none;

@@ -8,7 +8,7 @@ const NominatimURL = "https://nominatim.openstreetmap.org/search?";
 
 const cache = new Map();
 
-const photonOrNommina = "nomina";
+//const photonOrNommina = "nomina";
 
 const MIN_QUERY_LENGTH = 3;
 const DEBOUNCE_DELAY = 300;
@@ -86,10 +86,11 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
   );
 
   // Debounced version of fetchSuggestions
-  const debouncedFetchSuggestions = useCallback(
-    debounce((query) => fetchSuggestions(query), DEBOUNCE_DELAY),
-    [fetchSuggestions],
-  );
+  const debouncedFetchSuggestions = useRef(
+    debounce((query) => {
+      fetchSuggestions(query);
+    }, DEBOUNCE_DELAY),
+  ).current;
 
   // Handle input change event
   const handleInputChange = useCallback(
@@ -109,7 +110,7 @@ const LocationInput = ({ label, placeholder, onLocationSelect, value }) => {
       onLocationSelect?.(suggestion);
       inputRef.current?.blur();
     },
-    [onLocationSelect],
+    [onLocationSelect, setInputValue, setSuggestions],
   );
 
   // Clear input and suggestions

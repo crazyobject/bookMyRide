@@ -104,26 +104,36 @@ export const sendPushNotification = async (newRide) => {
 export const saveFcmTokenToFirestore = async (fcmToken) => {
   try {
     const user = auth.currentUser; // Get the logged-in user
-    if (user && fcmToken) {
+    if (user) {
+      // Removed fcmToken from the condition
       // Create a reference to the "users" collection with UID as the document ID
       const userRef = doc(db, "users", user.uid);
 
       // Prepare the data to save
       const userData = {
-        fcmToken, // Save the FCM token
+        fcmToken: fcmToken || "", // Save the FCM token or an empty string
         name: user.displayName || "Anonymous", // Get the user's display name or default to "Anonymous"
         timestamp: serverTimestamp(), // Automatically calculate the current timestamp
         userId: user.uid, // Save the user's UID
+        active: false,
+        kyc: false,
+        photoURL: user.photoURL || null,
+        email: user.email, // Get the user's email
       };
 
       // Save the data to Firestore, merging it with existing data
-      await setDoc(userRef, userData, { merge: true });
-      console.log("FCM token and user data saved successfully!");
+      await setDoc(userRef, userData, { merge: true })
+        .then(() => {
+          console.log("User data saved successfully!");
+        })
+        .catch((error) => {
+          console.error("Error saving user data:", error);
+        });
     } else {
-      console.error("User not authenticated or no FCM token");
+      console.error("User not authenticated");
     }
   } catch (error) {
-    console.error("Error saving FCM token:", error);
+    console.error("Error saving user data:", error);
   }
 };
 
