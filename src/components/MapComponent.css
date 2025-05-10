@@ -65,3 +65,81 @@
   top: 165px;
   background-color: darkgreen;
 }
+/* no results styles */
+.no-results-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.no-results-card {
+  background: #eaf6fb;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+  text-align: center;
+  min-width: 260px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-results-card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 0.3rem;
+  margin-top: 0.2rem;
+}
+
+.no-results-card p {
+  color: #3a506b;
+  font-size: 0.98rem;
+  margin-bottom: 0.7rem;
+  margin-top: 0;
+}
+
+.no-results-actions {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+.no-results-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.no-results-btn.request {
+  background: #22c55e;
+  color: #fff;
+}
+.no-results-btn.request:hover {
+  background: #16a34a;
+}
+
+.no-results-btn.offer {
+  background: #facc15;
+  color: #1a365d;
+}
+.no-results-btn.offer:hover {
+  background: #eab308;
+}

@@ -47,7 +47,7 @@ const MapComponent = ({ user }) => {
   const [selectedRides, setSelectedRides] = useState([]);
   const [hoveredRideId, setHoveredRideId] = useState(null);
   const [showOfferRideModal, setShowOfferRideModal] = useState(false);
-  const [showNoRidesFound, setShowNoRidesFound] = useState(false);
+  const [showNoRidesFound, setShowNoRidesFound] = useState(true);
   const [loading, setLoading] = useState(false);
   const [searchType, setSearchType] = useState("offer");
 
@@ -128,8 +128,8 @@ const MapComponent = ({ user }) => {
             //where("startDate", ">", oneHourAgoTimestamp),
             //where("startDate", "<=", eightHoursLater),
             //where("rider.email", "!=", user.email),
-            where("type", "==", type),
-          ),
+            where("type", "==", type)
+          )
         );
         const ridesList = ridesSnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -174,7 +174,7 @@ const MapComponent = ({ user }) => {
                 closeOnClick: true,
                 draggable: false,
                 closeButton: true,
-              },
+              }
             );
             setTimeout(() => {
               animateButton(type + "Button");
@@ -332,51 +332,54 @@ const MapComponent = ({ user }) => {
               handleRequestANewRide={handleShowModalForNewRideRequest}
               handleShowModalForNewRide={handleShowModalForNewRide}
               user={user}
+              searchRoute={
+                pickupCoords && dropCoords
+                  ? {
+                      start: {
+                        lat: pickupCoords[0],
+                        lng: pickupCoords[1],
+                      },
+                      end: {
+                        lat: dropCoords[0],
+                        lng: dropCoords[1],
+                      },
+                    }
+                  : null
+              }
             />
-            {matchingRides.length === 0 && (
-              <p>
-                <div class="container text-center mt-4">
+            {showNoRidesFound && (
+              <div className="no-results-overlay">
+                <div className="no-results-card">
                   <div
-                    class="alert alert-info d-flex align-items-center justify-content-between"
-                    style={{ flexDirection: "column" }}
+                    style={{
+                      fontSize: "1.7rem",
+                      marginBottom: "0.2rem",
+                      color: "#38bdf8",
+                    }}
                   >
-                    <div>
-                      {showNoRidesFound && (
-                        <h5 class="mb-3">No {ROLES[searchType]} found.</h5>
-                      )}
-                      <p class="d-none mb-0" style={{ fontSize: "14px" }}>
-                        Change "Pick-up" & "Drop" locations to search your ride
-                      </p>
-                    </div>
-                    <div>
-                      <button
-                        className="btn btn-success btn-sm"
-                        onClick={handleShowModalForNewRideRequest}
-                        data-tippy-content="Looking for a car/bike?"
-                        data-tippy-placement="top"
-                        id="offerButton"
-                        style={{
-                          // Ensures it looks identical to anchor version
-                          textDecoration: "none",
-                          display: "inline-block",
-                        }}
-                      >
-                        Request a New Ride
-                      </button>
-                      &nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;
-                      <button
-                        className="btn btn-warning btn-sm"
-                        onClick={handleShowModalForNewRide}
-                        data-tippy-content="Looking for a passenger?"
-                        data-tippy-placement="top"
-                        id="requestButton"
-                      >
-                        Offer a New Ride
-                      </button>
-                    </div>
+                    <i className="fas fa-search-location"></i>
+                  </div>
+                  <h2>No {ROLES[searchType]} found.</h2>
+                  <p>
+                    Try changing your pick-up or drop locations, or create a new
+                    ride to get started!
+                  </p>
+                  <div className="no-results-actions">
+                    <button
+                      className="no-results-btn request"
+                      onClick={handleShowModalForNewRideRequest}
+                    >
+                      <i className="fas fa-car-side"></i> Request a New Ride
+                    </button>
+                    <button
+                      className="no-results-btn offer"
+                      onClick={handleShowModalForNewRide}
+                    >
+                      <i className="fas fa-user-friends"></i> Offer a New Ride
+                    </button>
                   </div>
                 </div>
-              </p>
+              </div>
             )}
           </div>
         </div>

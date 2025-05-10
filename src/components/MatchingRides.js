@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
   faPhone,
   faCommentDots,
+  faCar,
+  faUser,
+  faMapMarkerAlt,
+  faCalendarAlt,
+  faMoneyBillWave,
+  faChair,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import Popup from "./Popup"; // Import the Popup component
@@ -12,14 +18,109 @@ import { db } from "../firebase"; // Import your Firebase config
 import "./MatchingRides.css";
 import { DateTime } from "./DateTime";
 
+// Function to calculate distance between two points using Haversine formula
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c; // Distance in km
+  return distance;
+};
+
+const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+};
+
+// Function to calculate route match percentage
+const calculateRouteMatchPercentage = (searchRoute, matchingRoute) => {
+  // Check for valid coordinates
+  if (
+    !searchRoute ||
+    !matchingRoute ||
+    !searchRoute.start ||
+    !searchRoute.end ||
+    !matchingRoute.start ||
+    !matchingRoute.end ||
+    typeof searchRoute.start.lat !== "number" ||
+    typeof searchRoute.start.lng !== "number" ||
+    typeof searchRoute.end.lat !== "number" ||
+    typeof searchRoute.end.lng !== "number" ||
+    !Array.isArray(matchingRoute.start.coordinates) ||
+    !Array.isArray(matchingRoute.end.coordinates) ||
+    matchingRoute.start.coordinates.length < 2 ||
+    matchingRoute.end.coordinates.length < 2
+  ) {
+    return "--";
+  }
+
+  // Extract lat/lng from coordinates array
+  const matchingStartLat = matchingRoute.start.coordinates[0];
+  const matchingStartLng = matchingRoute.start.coordinates[1];
+  const matchingEndLat = matchingRoute.end.coordinates[0];
+  const matchingEndLng = matchingRoute.end.coordinates[1];
+
+  // Calculate distances between start and end points
+  const startDistance = calculateDistance(
+    searchRoute.start.lat,
+    searchRoute.start.lng,
+    matchingStartLat,
+    matchingStartLng
+  );
+
+  const endDistance = calculateDistance(
+    searchRoute.end.lat,
+    searchRoute.end.lng,
+    matchingEndLat,
+    matchingEndLng
+  );
+
+  const maxDistance = 5; // 5km radius
+
+  const startMatch = Math.max(0, 100 - (startDistance / maxDistance) * 100);
+  const endMatch = Math.max(0, 100 - (endDistance / maxDistance) * 100);
+
+  return Math.round((startMatch + endMatch) / 2);
+};
+
 const MatchingRides = ({
   rides,
   setSelectedRides,
   selectedRides,
   handleShowModalForNewRide,
   user,
+  searchRoute, // Add this prop to receive the search route
 }) => {
   const [popupMessage, setPopupMessage] = useState(null);
+  const [popoverOpen, setPopoverOpen] = useState(null);
+  const carIconRefs = useRef({});
+
+  // Click-away listener for popover
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        popoverOpen &&
+        carIconRefs.current[popoverOpen] &&
+        !carIconRefs.current[popoverOpen].contains(event.target)
+      ) {
+        setPopoverOpen(null);
+      }
+    }
+    if (popoverOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popoverOpen]);
 
   // Function to check KYC and active status
   const checkUserStatus = async (userId) => {
@@ -30,13 +131,13 @@ const MatchingRides = ({
 
         if (!kyc) {
           setPopupMessage(
-            "KYC is pending. Please complete your KYC to proceed.",
+            "KYC is pending. Please complete your KYC to proceed."
           );
           return false;
         }
         if (!active) {
           setPopupMessage(
-            "Your account is inactive. Please activate your account to proceed.",
+            "Your account is inactive. Please activate your account to proceed."
           );
           return false;
         }
@@ -66,12 +167,12 @@ const MatchingRides = ({
   const handleShowMore = (ride) => {
     setSelectedRides((prevSelectedRides) => {
       const isSelected = prevSelectedRides.find(
-        (selectedRide) => selectedRide.id === ride.id,
+        (selectedRide) => selectedRide.id === ride.id
       );
 
       if (isSelected) {
         return prevSelectedRides.filter(
-          (selectedRide) => selectedRide.id !== ride.id,
+          (selectedRide) => selectedRide.id !== ride.id
         );
       } else {
         return [...prevSelectedRides, ride];
@@ -82,7 +183,7 @@ const MatchingRides = ({
   // Method to generate the inquiry message
   const getInquiryMessage = (ride) => {
     return encodeURIComponent(
-      `Hello ${ride.rider.fName} ${ride.rider.lName}, I'm interested in booking your ride. Could you please share more details?`,
+      `Hello ${ride.rider.fName} ${ride.rider.lName}, I'm interested in booking your ride. Could you please share more details?`
     );
   };
 
@@ -91,7 +192,7 @@ const MatchingRides = ({
     const inquiryMessage = getInquiryMessage(ride);
     window.open(
       `https://wa.me/${ride.rider.contact}?text=${inquiryMessage}`,
-      "_blank",
+      "_blank"
     ); // Opens WhatsApp chat
   };
 
@@ -107,82 +208,159 @@ const MatchingRides = ({
   };
 
   return (
-    <>
+    <div className="matching-rides-container">
       {popupMessage && (
         <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />
       )}
       {rides.length > 0 ? (
         rides.map((ride) => (
           <div key={ride.id} className="ride-card">
-            <h5>
-              {ride.rider.fName} {ride.rider.lName} -{" "}
-              <DateTime dateTime={ride.startDate} />
-            </h5>
-            <p className="text-start">
-              <b>From: </b>
-              {ride.route.start.address} <br /> <b>To: </b>
-              {ride.route.end.address}
-            </p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "Row",
-                width: "100%",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                {ride.type === "offer" && (
-                  <p>
-                    <b>Car: </b> {ride.car.model || "--"} (
-                    {ride.car.number || "--"}) / <b>Seats: </b>
-                    {ride.car.seats || "--"} / <b>  : </b>
-                    {ride.car.amount || "--"}
-                  </p>
-                )}
-                <p className="icon-container">
-                  <button onClick={() => handleShowMore(ride)}>
-                    <FontAwesomeIcon icon={faChartLine} />
-                    {selectedRides.some((r) => r.id === ride.id)
-                      ? " Remove"
-                      : " Route"}
-                  </button>
-                  <button
-                    title="WhatsApp Rider"
-                    onClick={() => handleAction(ride, handleWhatsAppClick)}
-                  >
-                    <FontAwesomeIcon icon={faWhatsapp} />
-                  </button>
-                  <button
-                    title="Call Rider"
-                    onClick={() =>
-                      handleAction(ride.rider.contact, handleCallClick)
-                    }
-                  >
-                    <FontAwesomeIcon icon={faPhone} />
-                  </button>
-                  <button
-                    title="Send SMS"
-                    onClick={() => handleAction(ride, handleSMSClick)}
-                  >
-                    <FontAwesomeIcon icon={faCommentDots} />
-                  </button>
-                </p>
-              </div>
-              <div>
-                {ride.rider.photoURL && (
+            <div className="ride-card-header">
+              <div className="rider-info">
+                {ride.rider.photoURL ? (
                   <img
-                    alt="Rider Profile"
                     src={ride.rider.photoURL}
-                    width="43"
-                    style={{
-                      marginLeft: "5px",
-                      borderRadius: "4px",
-                      border: "1px solid #ccc",
-                    }}
+                    alt="Rider Profile"
+                    className="rider-avatar"
                   />
+                ) : (
+                  <div className="rider-avatar-placeholder">
+                    <FontAwesomeIcon icon={faUser} />
+                  </div>
                 )}
+                <div className="rider-details">
+                  <div className="rider-name-row">
+                    <h5 className="rider-name">
+                      {ride.rider.fName} {ride.rider.lName}
+                    </h5>
+                    {ride.type === "offer" && (
+                      <>
+                        <div
+                          className="car-popover-trigger car-popover-next-to-route"
+                          ref={(el) => (carIconRefs.current[ride.id] = el)}
+                          style={{
+                            position: "relative",
+                            display: "inline-block",
+                            marginLeft: "12px",
+                          }}
+                        >
+                          <button
+                            className="car-popover-btn"
+                            onClick={() =>
+                              setPopoverOpen(
+                                popoverOpen === ride.id ? null : ride.id
+                              )
+                            }
+                            title="Show car details"
+                            type="button"
+                          >
+                            <FontAwesomeIcon
+                              icon={faCar}
+                              className="car-flip-icon"
+                            />
+                          </button>
+                          {popoverOpen === ride.id && (
+                            <div className="car-popover-box">
+                              <div className="car-details-popover">
+                                <div className="car-info-item">
+                                  <FontAwesomeIcon icon={faCar} />
+                                  <span>
+                                    {ride.car.model || "--"} (
+                                    {ride.car.number || "--"})
+                                  </span>
+                                </div>
+                                <div className="car-info-item">
+                                  <FontAwesomeIcon icon={faChair} />
+                                  <span>{ride.car.seats || "--"} seats</span>
+                                </div>
+                                <div className="car-info-item">
+                                  <FontAwesomeIcon icon={faMoneyBillWave} />
+                                  <span>₹{ride.car.amount || "--"}</span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          className={`action-button route-button ${
+                            selectedRides.some((r) => r.id === ride.id)
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() => handleShowMore(ride)}
+                        >
+                          <FontAwesomeIcon icon={faChartLine} />
+                          {selectedRides.some((r) => r.id === ride.id)
+                            ? "Remove"
+                            : "Route"}
+                          {searchRoute && (
+                            <span className="match-percentage">
+                              {calculateRouteMatchPercentage(
+                                searchRoute,
+                                ride.route
+                              )}
+                              %
+                            </span>
+                          )}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  <div className="ride-time">
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    <DateTime dateTime={ride.startDate} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ride-card-body">
+              <div className="route-info">
+                <div className="route-point">
+                  <FontAwesomeIcon
+                    icon={faMapMarkerAlt}
+                    className="route-icon start"
+                  />
+                  <span>{ride.route.start.address}</span>
+                </div>
+                <div className="route-point">
+                  <FontAwesomeIcon
+                    icon={faMapMarkerAlt}
+                    className="route-icon end"
+                  />
+                  <span>{ride.route.end.address}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="ride-card-footer">
+              <div className="contact-buttons contact-buttons-row">
+                <button
+                  className="action-button whatsapp-button big-action"
+                  title="WhatsApp Rider"
+                  onClick={() => handleAction(ride, handleWhatsAppClick)}
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} />
+                  <span>WhatsApp</span>
+                </button>
+                <button
+                  className="action-button call-button big-action"
+                  title="Call Rider"
+                  onClick={() =>
+                    handleAction(ride.rider.contact, handleCallClick)
+                  }
+                >
+                  <FontAwesomeIcon icon={faPhone} />
+                  <span>Call</span>
+                </button>
+                <button
+                  className="action-button sms-button big-action"
+                  title="Send SMS"
+                  onClick={() => handleAction(ride, handleSMSClick)}
+                >
+                  <FontAwesomeIcon icon={faCommentDots} />
+                  <span>SMS</span>
+                </button>
               </div>
             </div>
           </div>
@@ -190,7 +368,7 @@ const MatchingRides = ({
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

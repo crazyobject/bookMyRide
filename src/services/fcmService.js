@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   where,
   query,
+  getDoc,
 } from "firebase/firestore";
 import L from "leaflet";
 
@@ -23,7 +24,7 @@ export const sendNotificationOnRideCreation = async (rideData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(rideData), // Send the new ride data to your backend
-      },
+      }
     );
 
     if (!response.ok) {
@@ -45,11 +46,11 @@ export const sendPushNotification = async (newRide) => {
     // Define coordinates of the new ride
     const pickupCoords = L.latLng(
       route.start.coordinates[0],
-      route.start.coordinates[1],
+      route.start.coordinates[1]
     );
     const dropCoords = L.latLng(
       route.end.coordinates[0],
-      route.end.coordinates[1],
+      route.end.coordinates[1]
     );
 
     // Get rides that match the reverse type and search logic
@@ -59,8 +60,8 @@ export const sendPushNotification = async (newRide) => {
         //where("startDate", ">", newRide.startDate - 3600000), // One hour ago
         //where("startDate", "<=", newRide.startDate + 28800000), // Eight hours later
         where("type", "==", reverseType), // Opposite type
-        where("rider.email", "!=", rider.email), // Exclude the same user
-      ),
+        where("rider.email", "!=", rider.email) // Exclude the same user
+      )
     );
 
     const ridesList = ridesSnapshot.docs.map((doc) => ({
@@ -103,25 +104,26 @@ export const sendPushNotification = async (newRide) => {
 
 export const saveFcmTokenToFirestore = async (fcmToken) => {
   try {
-    const user = auth.currentUser; // Get the logged-in user
+    const user = auth.currentUser;
     if (user) {
-      // Removed fcmToken from the condition
-      // Create a reference to the "users" collection with UID as the document ID
       const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-      // Prepare the data to save
-      const userData = {
-        fcmToken: fcmToken || "", // Save the FCM token or an empty string
-        name: user.displayName || "Anonymous", // Get the user's display name or default to "Anonymous"
-        timestamp: serverTimestamp(), // Automatically calculate the current timestamp
-        userId: user.uid, // Save the user's UID
-        active: false,
-        kyc: false,
+      let userData = {
+        fcmToken: fcmToken || "",
+        name: user.displayName || "Anonymous",
+        timestamp: serverTimestamp(),
+        userId: user.uid,
         photoURL: user.photoURL || null,
-        email: user.email, // Get the user's email
+        email: user.email,
       };
 
-      // Save the data to Firestore, merging it with existing data
+      // Only set kyc and active to false if the user doc does not exist
+      if (!userSnap.exists()) {
+        userData.kyc = false;
+        userData.active = false;
+      }
+
       await setDoc(userRef, userData, { merge: true })
         .then(() => {
           console.log("User data saved successfully!");
